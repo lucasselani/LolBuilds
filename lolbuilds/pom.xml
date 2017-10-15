@@ -34,7 +34,13 @@
 			<layout>default</layout>
 		</repository>
 	</repositories>
+	
 	<dependencies>
+		<dependency>
+	  		<groupId>lolbuilds-dao</groupId>
+	  		<artifactId>lolbuilds-dao</artifactId>
+	  		<version>0.0.1-SNAPSHOT</version>
+	  	</dependency>	
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-servlet-api</artifactId>
