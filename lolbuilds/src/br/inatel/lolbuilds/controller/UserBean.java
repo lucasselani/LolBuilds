@@ -1,7 +1,7 @@
-package br.inatel.lolbuilds.model;
+package br.inatel.lolbuilds.controller;
 
 import java.io.Serializable;
-import br.com.projetoac.dao.UserDAO;
+import br.inatel.lolbuilds.dao.UserDAO;
 import br.inatel.lolbuilds.entity.User;
 
 import javax.faces.bean.ManagedBean;
@@ -19,12 +19,20 @@ public class UserBean implements Serializable {
 	private String email;
 	private String password;
 	
-	public void insereBanco() {
+	public void registerUser() {
 		User user = new User();
 		UserDAO dao = new UserDAO();
 		user.setEmail(this.email);
 		user.setPassword(this.password);
 		dao.add(user);
+	}
+	
+	public void requestLogin() {
+		User user = new User();
+		UserDAO dao = new UserDAO();
+		user.setEmail(this.email);
+		user.setPassword(this.password);
+		dao.login(user);
 	}
 	
 	public int getId() {

@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>LolBuilds</groupId>
-  <artifactId>LolBuilds</artifactId>
+  <groupId>lolbuilds</groupId>
+  <artifactId>lolbuilds</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>          
 	<build>
@@ -35,54 +35,44 @@
 		</repository>
 	</repositories>
 	
+	<properties>
+        <tomcat.version>7.0.56</tomcat.version>
+        <jsf.version>2.1.7</jsf.version>
+        <primefaces.version>6.1</primefaces.version>
+    </properties>
+	
 	<dependencies>
 		<dependency>
 	  		<groupId>lolbuilds-dao</groupId>
 	  		<artifactId>lolbuilds-dao</artifactId>
 	  		<version>0.0.1-SNAPSHOT</version>
 	  	</dependency>	
+	  	
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-servlet-api</artifactId>
-            <version>7.0.56</version>
+            <version>${tomcat.version}</version>
             <scope>provided</scope>
         </dependency>    
-		<!-- Servlet -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
-			<scope>provided</scope>
-		</dependency>
+
 		<!-- Faces Implementation -->
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-impl</artifactId>
-			<version>2.2.4</version>
+			<version>${jsf.version}</version>
 		</dependency>
 		<!-- Faces Library -->
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-api</artifactId>
-			<version>2.2.4</version>
+			<version>${jsf.version}</version>
 		</dependency>
-		<!-- Primefaces Version 6 -->
+		<!-- Primefaces -->
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-			<version>6.1</version>
+			<version>${primefaces.version}</version>
 		</dependency>
-		<!-- JSP Library -->
-		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>javax.servlet.jsp-api</artifactId>
-			<version>2.3.1</version>
-		</dependency>
-		<!-- JSTL Library -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.1.2</version>
-		</dependency>
+
 	</dependencies>
 </project>
