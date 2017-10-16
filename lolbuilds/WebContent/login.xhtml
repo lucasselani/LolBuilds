@@ -16,10 +16,10 @@
 			<h:form>
 				<h:panelGrid>
 					<h:outputLabel>Username:</h:outputLabel>
-					<h:inputText value="#{userBean.email}" id="email"></h:inputText>
+					<h:inputText value="#{loginBean.email}" id="email"></h:inputText>
 					<h:outputLabel>Password::</h:outputLabel>
-					<h:inputText value="#{userBean.password}" id="password"></h:inputText>
-					<h:commandButton value="Submit" action="#{userBean.requestLogin()}"></h:commandButton>
+					<h:inputText value="#{loginBean.password}" id="password"></h:inputText>
+					<h:commandButton value="Submit" action="#{loginBean.requestLogin()}"></h:commandButton>
 				</h:panelGrid>
 			</h:form>
 		</ui:define>

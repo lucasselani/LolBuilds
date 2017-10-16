@@ -23,7 +23,7 @@ public class UserDAO {
 		return conn;
 	}
 	
-	public void login(User user) {
+	public boolean login(User user) {
 		try {
 			String queryString = "SELECT email, password FROM user WHERE email=?";
 			connection = getConnection();
@@ -31,14 +31,12 @@ public class UserDAO {
 			ptmt.setString(1, user.getEmail());
 			resultSet = ptmt.executeQuery();
 
-			boolean isValidUser = false;
 			while (resultSet.next()) {
 				String password = resultSet.getString("password");
 				if(password.equals(user.getPassword())) {
-					isValidUser = true;
+					return true;
 				}				
 		    }
-			System.out.println(isValidUser);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -55,10 +53,43 @@ public class UserDAO {
 				e.printStackTrace();
 			}	
 		}
+		return false;
+	}
+	
+	public boolean findEmail(String email) {
+		try {
+			String queryString = "SELECT email FROM user WHERE email=?";
+			connection = getConnection();
+			ptmt = connection.prepareStatement(queryString);
+			ptmt.setString(1, email);
+			resultSet = ptmt.executeQuery();
 
+			while (resultSet.next()) {
+				String emailSql = resultSet.getString("email");
+				if(email.equals(emailSql)) {
+					return true;
+				}				
+		    }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (resultSet != null)
+					resultSet.close();
+				if (ptmt != null)
+					ptmt.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
+		}
+		return false;
 	}
 
-	public void add(User user) {
+	public void register(User user) {
 		try {
 			String queryString = "insert into user (email, username, password) values (?,?,?)";
 			connection = getConnection();

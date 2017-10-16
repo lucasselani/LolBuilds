@@ -11,7 +11,7 @@ import javax.faces.context.FacesContext;
 
 @ManagedBean
 @ViewScoped
-public class UserBean implements Serializable {
+public class LoginBean implements Serializable {
 
 	private static final long serialVersionUID = 3973801993975443027L;
 
@@ -19,20 +19,31 @@ public class UserBean implements Serializable {
 	private String email;
 	private String password;
 	
-	public void registerUser() {
+	public void requestLogin() {
+		if(!validateLogin()) return;
+
 		User user = new User();
 		UserDAO dao = new UserDAO();
 		user.setEmail(this.email);
 		user.setPassword(this.password);
-		dao.add(user);
+		boolean isValidUser = dao.login(user);
+		if(!isValidUser) {
+			System.out.println("Usuário ou senha inválidos!");
+		} else {
+			// MANDAR PARA TELA PRINCIPAL
+		}
 	}
 	
-	public void requestLogin() {
-		User user = new User();
-		UserDAO dao = new UserDAO();
-		user.setEmail(this.email);
-		user.setPassword(this.password);
-		dao.login(user);
+	private boolean validateLogin() {
+		if(this.email == null || (this.email != null && this.email.isEmpty())) {
+			System.out.println("Preencha o campo e-mail!");
+			return false;
+		}
+		if(this.password == null || (this.password != null && this.password.isEmpty())) {
+			System.out.println("Preencha o campo senha!");
+			return false;
+		}
+		return true;
 	}
 	
 	public int getId() {
