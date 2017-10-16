@@ -1,48 +1,22 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>lolbuilds</groupId>
-  <artifactId>lolbuilds</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging>          
-	<build>
-		<sourceDirectory>src</sourceDirectory>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>3.0.0</version>
-				<configuration>
-					<warSourceDirectory>webapp</warSourceDirectory>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-				</configuration>
-			</plugin>
-		</plugins>
-		<finalName>${project.artifactId}</finalName>
-	</build>
-	<repositories>
-		<repository>
-			<id>prime-repo</id>
-			<name>PrimeFaces Maven Repository</name>
-			<url>http://repository.primefaces.org</url>
-			<layout>default</layout>
-		</repository>
-	</repositories>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+	http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>br.inatel.lolbuild</groupId>
+	<artifactId>Lol-Build</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	
 	<properties>
         <tomcat.version>7.0.55</tomcat.version>
         <jsf.version>2.1.7</jsf.version>
-        <primefaces.version>3.5</primefaces.version>
+        <primefaces.version>6.1</primefaces.version>
     </properties>
-	
-	<dependencies>
-	<!-- Sevlet jars for compilation, provided by Tomcat -->
+          
+    <dependencies>         
+        <!-- Sevlet jars for compilation, provided by Tomcat -->
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-servlet-api</artifactId>
@@ -71,8 +45,7 @@
 	  		<groupId>lolbuilds-dao</groupId>
 	  		<artifactId>lolbuilds-dao</artifactId>
 	  		<version>0.0.1-SNAPSHOT</version>
-	  	</dependency>	
-	  	
+	  	</dependency>	 	
        
 		<!-- Primefaces -->
 		<dependency>
@@ -80,6 +53,30 @@
 			<artifactId>primefaces</artifactId>
 			<version>${primefaces.version}</version>
 		</dependency>
-		
-	</dependencies>
+
+    </dependencies>
+      
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                <source>1.8</source>
+                <target>1.8</target>
+                </configuration>
+            </plugin>
+                      
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                <warSourceDirectory>WebContent</warSourceDirectory>
+                <failOnMissingWebXml>true</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+	
 </project>

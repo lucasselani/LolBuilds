@@ -25,13 +25,20 @@ public class UserDAO {
 	
 	public void login(User user) {
 		try {
-			String queryString = "SELECT email, password FROM user";
-			String conditionString = "WHERE email=";
-			String sqlString = queryString + conditionString + "'" + user.getEmail() + "';";
+			String queryString = "SELECT email, password FROM user WHERE email=?";
 			connection = getConnection();
-			ptmt = connection.prepareStatement(sqlString);
+			ptmt = connection.prepareStatement(queryString);
+			ptmt.setString(1, user.getEmail());
 			resultSet = ptmt.executeQuery();
-			System.out.println(resultSet);
+
+			boolean isValidUser = false;
+			while (resultSet.next()) {
+				String password = resultSet.getString("password");
+				if(password.equals(user.getPassword())) {
+					isValidUser = true;
+				}				
+		    }
+			System.out.println(isValidUser);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -46,7 +53,7 @@ public class UserDAO {
 				e.printStackTrace();
 			} catch (Exception e) {
 				e.printStackTrace();
-			}
+			}	
 		}
 
 	}

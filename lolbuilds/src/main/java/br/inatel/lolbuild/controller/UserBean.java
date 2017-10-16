@@ -1,4 +1,4 @@
-package br.inatel.lolbuilds.controller;
+package br.inatel.lolbuild.controller;
 
 import java.io.Serializable;
 import br.inatel.lolbuilds.dao.UserDAO;
