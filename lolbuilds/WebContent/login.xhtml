@@ -1,27 +1,43 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
-	<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:ui="http://java.sun.com/jsf/facelets"
-		xmlns:h="http://java.sun.com/jsf/html"
-		xmlns:f="http://java.sun.com/jsf/core"
-		xmlns:p="http://primefaces.org/ui"
-		xmlns:c="http://java.sun.com/jsp/jstl/core"
-		template="template/ui.xhtml">
-		<ui:define name="body">
-			<h3>Cadastro</h3>
-			<h:form>
-				<h:panelGrid>
-					<h:outputLabel>Username:</h:outputLabel>
-					<h:inputText value="#{loginBean.email}" id="email"></h:inputText>
-					<h:outputLabel>Password::</h:outputLabel>
-					<h:inputText value="#{loginBean.password}" id="password"></h:inputText>
-					<h:commandButton value="Submit" action="#{loginBean.requestLogin()}"></h:commandButton>
-				</h:panelGrid>
-			</h:form>
-		</ui:define>
-	</ui:composition>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui"> 
+     
+    <!-- HEADER -->
+    <h:head>
+    	<title>Build Online</title>
+		<h:outputStylesheet library="css" name="style.css" />
+		<h:outputStylesheet library="css" name="font-awesome.css" />
+    </h:head>
+    
+    <!-- BODY -->
+    <h:body class="align">
+    
+    		<p:graphicImage url="resources/images/logo.png" />
+			<br/>
+			<div class="grid">
+			
+				<!-- LOGIN -->
+				<h:form class="form login">
+					<div class="form__field">
+						<h:outputLabel for="email" ><i class="fa fa-user"></i></h:outputLabel>
+						<h:inputText value="#{loginBean.email}" id="email" class="form__input" required="true"></h:inputText>
+        				<p:watermark for="email" value="Usuário" />
+					</div>
+					<div class="form__field">
+						<h:outputLabel for="password"><i class="fa fa-lock"></i></h:outputLabel>
+						<h:inputSecret value="#{loginBean.password}" id="password" class="form__input" required="true"></h:inputSecret>
+        				<p:watermark for="password" value="Senha" />
+					</div>
+					<div class="form__field">
+						<h:commandButton value="Entrar" action="#{loginBean.requestLogin()}"></h:commandButton>
+					</div>
+				</h:form>
+				<br/>
+				<h:outputLabel>Não é membro? <a href="signup.xhtml">Cadastre-se agora</a></h:outputLabel>
+						
+			</div>
+    </h:body>
+    
 </html>
