@@ -2,6 +2,7 @@ package br.inatel.lolbuild.controller;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import br.inatel.lolbuilds.dao.UserDAO;
 import br.inatel.lolbuilds.entity.User;
@@ -34,7 +35,12 @@ public class RegisterBean {
 			User user = new User();
 			user.setUsername(this.username);
 			user.setPassword(this.password);			
-			dao.register(user);			
+			dao.register(user);
+			FacesContext
+			.getCurrentInstance()
+			.getApplication()
+			.getNavigationHandler()
+			.handleNavigation(FacesContext.getCurrentInstance(), null, "login.xhtml");			
 		}
 	}
 

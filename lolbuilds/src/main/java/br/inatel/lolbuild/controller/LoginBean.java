@@ -2,14 +2,13 @@ package br.inatel.lolbuild.controller;
 
 import java.io.Serializable;
 
-import br.inatel.lolbuild.util.AppUrlStore;
-import br.inatel.lolbuilds.dao.UserDAO;
-import br.inatel.lolbuilds.entity.User;
-
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
+
+import br.inatel.lolbuilds.dao.UserDAO;
+import br.inatel.lolbuilds.entity.User;
 
 @ManagedBean
 @ViewScoped
@@ -21,9 +20,6 @@ public class LoginBean implements Serializable {
 	private String username;
 	private String password;
 	
-	private boolean invalidLogin;
-	private String errorMessage;
-	
 	public void requestLogin() {
 		User user = new User();
 		UserDAO dao = new UserDAO();
@@ -32,19 +28,16 @@ public class LoginBean implements Serializable {
 		boolean isValidUser = dao.login(user);
 		
 		if(!isValidUser) {
-			this.invalidLogin = true;
-			this.errorMessage = "Usuário ou senha inválidos!";
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário e/ou senha incorreto(s).", null));
 			this.username = "";
 			this.password = "";
 		} else {
-			invalidLogin = false;
 			System.out.println("Login realizado com sucesso!");
 			FacesContext
 				.getCurrentInstance()
 				.getApplication()
 				.getNavigationHandler()
-				.handleNavigation(FacesContext.getCurrentInstance(), 
-						null, "signup.xhtml");
+				.handleNavigation(FacesContext.getCurrentInstance(), null, "home.xhtml");
 		}
 	}
 	
@@ -66,22 +59,5 @@ public class LoginBean implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	public boolean isInvalidLogin() {
-		return invalidLogin;
-	}
-
-	public void setInvalidLogin(boolean invalidLogin) {
-		this.invalidLogin = invalidLogin;
-	}
-
-	public String getErrorMessage() {
-		return errorMessage;
-	}
-
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
-	}
-	
 	
 }

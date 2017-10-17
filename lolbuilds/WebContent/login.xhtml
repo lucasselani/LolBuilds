@@ -13,40 +13,28 @@
     
     <!-- BODY -->
     <h:body class="align">
-	    <h:outputScript rendered="#{loginBean.invalidLogin}">
-	    	alert("#{loginBean.errorMessage}");
-		</h:outputScript>
-    
     		<p:graphicImage url="resources/images/logo.png" />
 			<br/>
 			<div class="grid">
-			
 				<!-- LOGIN -->
 				<h:form class="form login">
+				<p:messages id="messages" showDetail="false" autoUpdate="false" closable="true" />
 					<div class="form__field">
 						<h:outputLabel for="username" ><i class="fa fa-user"></i></h:outputLabel>
-						<h:inputText value="#{loginBean.username}" id="username" 
-							class="form__input" required="true" requiredMessage="Preencha o campo usuário!">
-						</h:inputText>
-        				<p:watermark for="username" value="Usuário" />        				
+						<h:inputText value="#{loginBean.username}" id="username" class="form__input" required="true" requiredMessage="Preencha o campo usuário."></h:inputText>
+        				<p:watermark for="username" value="Usuário" />
 					</div>
-					<h:message id="messageUsername" for="username" style="color:red"/>
 					<div class="form__field">
 						<h:outputLabel for="password"><i class="fa fa-lock"></i></h:outputLabel>
-						<h:inputSecret value="#{loginBean.password}" id="password"
-							class="form__input" required="true" requiredMessage="Preencha o campo senha!">
-						</h:inputSecret>
-        				<p:watermark for="password" value="Senha" />        				
+						<h:inputSecret value="#{loginBean.password}" id="password" class="form__input" required="true" requiredMessage="Preencha o campo senha."></h:inputSecret>
+        				<p:watermark for="password" value="Senha" />  
 					</div>
-					<h:message id="messagePassword" for="password" style="color:red"/>
 					<div class="form__field">
-						<h:commandButton value="Entrar" action="#{loginBean.requestLogin}">
-						</h:commandButton>
+						<h:commandButton value="Entrar" action="#{loginBean.requestLogin}"></h:commandButton>
 					</div>
 				</h:form>
 				<br/>
 				<h:outputLabel>Não é membro? <a href="signup.xhtml">Cadastre-se agora</a></h:outputLabel>
-						
 			</div>
     </h:body>
     
