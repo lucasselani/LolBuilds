@@ -25,10 +25,10 @@ public class UserDAO {
 	
 	public boolean login(User user) {
 		try {
-			String queryString = "SELECT email, password FROM user WHERE email=?";
+			String queryString = "SELECT username, password FROM user WHERE username=?";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
-			ptmt.setString(1, user.getEmail());
+			ptmt.setString(1, user.getUsername());
 			resultSet = ptmt.executeQuery();
 
 			while (resultSet.next()) {
@@ -56,17 +56,17 @@ public class UserDAO {
 		return false;
 	}
 	
-	public boolean findEmail(String email) {
+	public boolean findUsername(String username) {
 		try {
-			String queryString = "SELECT email FROM user WHERE email=?";
+			String queryString = "SELECT username FROM user WHERE username=?";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
-			ptmt.setString(1, email);
+			ptmt.setString(1, username);
 			resultSet = ptmt.executeQuery();
 
 			while (resultSet.next()) {
-				String emailSql = resultSet.getString("email");
-				if(email.equals(emailSql)) {
+				String usernameSql = resultSet.getString("username");
+				if(username.equals(usernameSql)) {
 					return true;
 				}				
 		    }
@@ -91,12 +91,11 @@ public class UserDAO {
 
 	public void register(User user) {
 		try {
-			String queryString = "insert into user (email, username, password) values (?,?,?)";
+			String queryString = "insert into user (username, password) values (?,?)";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
-			ptmt.setString(1, user.getEmail());
-			ptmt.setString(2, user.getUsername());
-			ptmt.setString(3, user.getPassword());
+			ptmt.setString(1, user.getUsername());
+			ptmt.setString(2, user.getPassword());
 			ptmt.executeUpdate();
 			System.out.println("Usuário adicionado com sucesso!");
 		} catch (SQLException e) {

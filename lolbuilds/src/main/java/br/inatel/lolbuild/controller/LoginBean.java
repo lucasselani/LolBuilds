@@ -1,6 +1,8 @@
 package br.inatel.lolbuild.controller;
 
 import java.io.Serializable;
+
+import br.inatel.lolbuild.util.AppUrlStore;
 import br.inatel.lolbuilds.dao.UserDAO;
 import br.inatel.lolbuilds.entity.User;
 
@@ -16,34 +18,34 @@ public class LoginBean implements Serializable {
 	private static final long serialVersionUID = 3973801993975443027L;
 
 	private int id;
-	private String email;
+	private String username;
 	private String password;
 	
+	private boolean invalidLogin;
+	private String errorMessage;
+	
 	public void requestLogin() {
-		if(!validateLogin()) return;
-
 		User user = new User();
 		UserDAO dao = new UserDAO();
-		user.setEmail(this.email);
+		user.setUsername(this.username);
 		user.setPassword(this.password);
 		boolean isValidUser = dao.login(user);
+		
 		if(!isValidUser) {
-			System.out.println("Usuário ou senha inválidos!");
+			this.invalidLogin = true;
+			this.errorMessage = "Usuário ou senha inválidos!";
+			this.username = "";
+			this.password = "";
 		} else {
-			// MANDAR PARA TELA PRINCIPAL
+			invalidLogin = false;
+			System.out.println("Login realizado com sucesso!");
+			FacesContext
+				.getCurrentInstance()
+				.getApplication()
+				.getNavigationHandler()
+				.handleNavigation(FacesContext.getCurrentInstance(), 
+						null, "signup.xhtml");
 		}
-	}
-	
-	private boolean validateLogin() {
-		if(this.email == null || (this.email != null && this.email.isEmpty())) {
-			System.out.println("Preencha o campo e-mail!");
-			return false;
-		}
-		if(this.password == null || (this.password != null && this.password.isEmpty())) {
-			System.out.println("Preencha o campo senha!");
-			return false;
-		}
-		return true;
 	}
 	
 	public int getId() {
@@ -52,11 +54,11 @@ public class LoginBean implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getEmail() {
-		return email;
+	public String getUsername() {
+		return username;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public String getPassword() {
 		return password;
@@ -64,5 +66,22 @@ public class LoginBean implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public boolean isInvalidLogin() {
+		return invalidLogin;
+	}
+
+	public void setInvalidLogin(boolean invalidLogin) {
+		this.invalidLogin = invalidLogin;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+	
 	
 }

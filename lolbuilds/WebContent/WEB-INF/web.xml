@@ -39,7 +39,7 @@
 	<context-param>
         <param-name>BaseUrl</param-name>
         <param-value>
-			http://localhost:8080/lolbuild/
+			http://localhost:8080/Lol-Build/
 		</param-value>
     </context-param>
 </web-app>

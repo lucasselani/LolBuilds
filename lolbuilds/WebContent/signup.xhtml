@@ -13,6 +13,9 @@
     
     <!-- BODY -->
     <h:body class="align">
+	    <h:outputScript rendered="#{registerBean.invalidRegister}">
+	    	alert("#{registerBean.errorMessage}");
+		</h:outputScript>
     
 			<p:graphicImage url="resources/images/logo.png" />
 			<br/>
@@ -21,22 +24,29 @@
 				<!-- LOGIN -->
 				<h:form class="form login">
 					<div class="form__field">
-						<h:outputLabel for="email" ><i class="fa fa-user"></i></h:outputLabel>
-						<h:inputText value="#{loginBean.email}" id="email" class="form__input" required="true"></h:inputText>
-        				<p:watermark for="email" value="Nome do usuário" />
+						<h:outputLabel for="username" ><i class="fa fa-user"></i></h:outputLabel>
+						<h:inputText value="#{registerBean.username}" id="username"
+							class="form__input" required="true" requiredMessage="Preencha o campo usuário!"></h:inputText>
+        				<p:watermark for="username" value="Nome do usuário" />
 					</div>
+					<h:message id="messageUsername" for="username" style="color:red"/>
 					<div class="form__field">
 						<h:outputLabel for="password"><i class="fa fa-lock"></i></h:outputLabel>
-						<h:inputSecret value="#{loginBean.password}" id="password" class="form__input" required="true"></h:inputSecret>
+						<h:inputSecret value="#{registerBean.password}" id="password"
+							class="form__input" required="true" requiredMessage="Preencha o campo senha!"></h:inputSecret>
         				<p:watermark for="password" value="Senha" />
 					</div>
+					<h:message id="messagePassword" for="password" style="color:red"/>
 					<div class="form__field">
-						<h:outputLabel for="password"><i class="fa fa-lock"></i></h:outputLabel>
-						<h:inputSecret value="#{loginBean.password}" id="passwordRepeat" class="form__input" required="true"></h:inputSecret>
+						<h:outputLabel for="passwordRepeat"><i class="fa fa-lock"></i></h:outputLabel>
+						<h:inputSecret value="#{registerBean.repeatPassword}" id="passwordRepeat"
+							class="form__input" required="true" requiredMessage="Preencha o campo repitir senha!"></h:inputSecret>
         				<p:watermark for="passwordRepeat" value="Repita sua senha" />
 					</div>
+					<h:message id="messageRepeatPassword" for="passwordRepeat" style="color:red"/>
 					<div class="form__field">
-						<h:commandButton value="Cadastrar" action="#{loginBean.requestLogin()}"></h:commandButton>
+						<h:commandButton value="Cadastrar" action="#{registerBean.requestRegister}">
+						</h:commandButton>
 					</div>
 				</h:form>
 						

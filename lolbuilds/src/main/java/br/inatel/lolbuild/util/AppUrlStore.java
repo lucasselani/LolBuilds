@@ -14,12 +14,12 @@ public class AppUrlStore implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String baseUrl = null;
-	private String simpleCrudUrl = null;
-	private String freshSafeCrudUrl = null;
+	private String loginUrl = null;
+	private String signupUrl = null;
 
 	public String getBaseUrl() {return baseUrl; }
-	public String getSimpleCrudUrl() { return simpleCrudUrl; }
-	public String getFreshSafeCrudUrl() {return freshSafeCrudUrl; }
+	public String getLoginUrl() { return loginUrl; }
+	public String getSignupUrl() {return signupUrl; }
 
 	@PostConstruct
     public void init() {
@@ -27,7 +27,7 @@ public class AppUrlStore implements Serializable {
 		String baseUrl = externalContext.getInitParameter("BaseUrl");
 
 		this.baseUrl = baseUrl;
-		this.simpleCrudUrl = baseUrl + "simplecrud.xhtml";
-		this.freshSafeCrudUrl = baseUrl + "freshsafecrud.xhtml";
+		this.loginUrl = baseUrl + "login.xhtml";
+		this.signupUrl = baseUrl + "signup.xhtml";
     }
 }
