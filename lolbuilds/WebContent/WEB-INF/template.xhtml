@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:outputScript library="js" name="jquery.min.js" target="head" />
+	<h:outputScript library="js" name="navbar.js" target="head" />
+	<h:outputStylesheet library="css" name="style.css" target="head" />
+	<h:outputStylesheet library="css" name="font-awesome.css" target="head" />
+	
+	<h:head>
+		<title><ui:insert name="title"></ui:insert></title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	
+	<h:body class="align">
+		<div class='nav'>
+			<ul>
+				<p:graphicImage url="resources/images/logo.png" style="float:left; max-width:200px; padding:15px;" />
+				<li><a href='home.xhtml'>Início</a></li>
+				<li><a href='builds.xhtml'>Builds</a>
+					<ul>
+						<li><a href='#'>Topo</a></li>
+						<li><a href='#'>Meio</a></li>
+						<li><a href='#'>Selva</a></li>
+						<li><a href='#'>Atirador</a></li>
+						<li><a href='#'>Suporte</a></li>
+					</ul>
+				</li>
+				<li><a href='champions.xhtml'>Campeões</a></li>
+				<li><a href='nova-build.xhtml'>Nova Build</a></li>
+				<li style="float: right;"><a href='#'>Sair</a></li>
+				<li class='lamp'><span></span></li>
+			</ul>
+		</div>
+		<ui:insert name="content"></ui:insert>
+		<div class='bottomNav'>
+			<div id="box">AC 328 - BUILD ONLINE - INATEL @ 2017</div>
+			<div id="box2">PROJETO DESENVOLVIDO POR LUCAS SELANI E ALEXANDRE MIZIARA</div>
+		</div>
+	</h:body>
+
+</html>

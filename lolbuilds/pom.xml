@@ -5,7 +5,7 @@
 	
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.inatel.lolbuild</groupId>
-	<artifactId>Lol-Build</artifactId>
+	<artifactId>build-online</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	

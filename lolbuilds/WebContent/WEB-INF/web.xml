@@ -5,7 +5,7 @@
         http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
     id="WebApp_ID" version="3.0">
     
-    <display-name>LoL Build</display-name>
+    <display-name>Build Online</display-name>
     <welcome-file-list>
 		<welcome-file>login.xhtml</welcome-file>
 	</welcome-file-list>
@@ -39,7 +39,7 @@
 	<context-param>
         <param-name>BaseUrl</param-name>
         <param-value>
-			http://localhost:8080/Lol-Build/
+			http://localhost:8080/build-online/
 		</param-value>
     </context-param>
 </web-app>
