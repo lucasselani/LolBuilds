@@ -7,7 +7,7 @@
     
     <display-name>Build Online</display-name>
     <welcome-file-list>
-		<welcome-file>login.xhtml</welcome-file>
+		<welcome-file>/public/login.xhtml</welcome-file>
 	</welcome-file-list>
     
     <filter>
@@ -32,14 +32,14 @@
 	</servlet-mapping>
 	
 	<session-config>
-		<session-timeout>20</session-timeout>
+		<session-timeout>60</session-timeout>
 		<tracking-mode>COOKIE</tracking-mode>
 	</session-config>
 	
 	<context-param>
         <param-name>BaseUrl</param-name>
         <param-value>
-			http://localhost:8080/build-online/
+			http://localhost:8080/Lol-Build/
 		</param-value>
     </context-param>
 </web-app>

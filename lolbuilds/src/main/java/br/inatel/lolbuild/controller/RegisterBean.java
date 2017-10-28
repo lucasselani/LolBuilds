@@ -4,6 +4,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import br.inatel.lolbuild.util.Util;
 import br.inatel.lolbuilds.dao.UserDAO;
 import br.inatel.lolbuilds.entity.User;
 
@@ -33,14 +34,15 @@ public class RegisterBean {
 		} else {
 			invalidRegister = false;
 			User user = new User();
+			String cryptoPassword = Util.convertStringToMd5(this.password);
 			user.setUsername(this.username);
-			user.setPassword(this.password);			
+			user.setPassword(cryptoPassword);			
 			dao.register(user);
 			FacesContext
 			.getCurrentInstance()
 			.getApplication()
 			.getNavigationHandler()
-			.handleNavigation(FacesContext.getCurrentInstance(), null, "login.xhtml");			
+			.handleNavigation(FacesContext.getCurrentInstance(), null, "/public/login.xhtml");			
 		}
 	}
 

@@ -7,6 +7,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import br.inatel.lolbuild.util.SessionContext;
+import br.inatel.lolbuild.util.Util;
 import br.inatel.lolbuilds.dao.UserDAO;
 import br.inatel.lolbuilds.entity.User;
 
@@ -23,8 +25,10 @@ public class LoginBean implements Serializable {
 	public void requestLogin() {
 		User user = new User();
 		UserDAO dao = new UserDAO();
+		
+		String cryptoPassword = Util.convertStringToMd5(this.password);
 		user.setUsername(this.username);
-		user.setPassword(this.password);
+		user.setPassword(cryptoPassword);
 		boolean isValidUser = dao.login(user);
 		
 		if(!isValidUser) {
@@ -33,13 +37,17 @@ public class LoginBean implements Serializable {
 			this.password = "";
 		} else {
 			System.out.println("Login realizado com sucesso!");
+			SessionContext.getInstance().setAttribute("userLogged", user);
 			FacesContext
 				.getCurrentInstance()
 				.getApplication()
 				.getNavigationHandler()
-				.handleNavigation(FacesContext.getCurrentInstance(), null, "home.xhtml");
+				.handleNavigation(FacesContext.getCurrentInstance(), null, "/restricted/home.xhtml?faces-redirect=true");
 		}
 	}
+    public User getUser() {
+        return (User) SessionContext.getInstance().getUserLogged();
+     }
 	
 	public int getId() {
 		return id;
