@@ -15,9 +15,9 @@ import javax.servlet.http.HttpSession;
 
 import br.inatel.lolbuilds.entity.User;
 
-@WebFilter(filterName = "LoginFilter", urlPatterns = { "/restricted/*.xhtml" })
+@WebFilter(filterName = "LoginFilter", urlPatterns = { "*" })
 public class LoginFilter implements Filter {
-
+	private static final String RESTRICTED = "restricted";
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
@@ -29,16 +29,27 @@ public class LoginFilter implements Filter {
 		// TODO Auto-generated method stub
 		User user = null;
 		HttpSession sess = ((HttpServletRequest) request).getSession(false);
+		String url = ((HttpServletRequest) request).getRequestURL().toString();
 		
 		if (sess != null) {
 			user = (User) sess.getAttribute("userLogged");
 		}
 
 		if (user == null) {
-			String contextPath = ((HttpServletRequest) request).getContextPath();
-			((HttpServletResponse) response).sendRedirect(contextPath + "/public/login.xhtml");
+			if(url.contains(RESTRICTED)) {
+				String contextPath = ((HttpServletRequest) request).getContextPath();
+				((HttpServletResponse) response).sendRedirect(contextPath + "/public/login.xhtml");
+			} else {
+				chain.doFilter(request, response);
+			}
 		} else {
-			chain.doFilter(request, response);
+			if(url.contains(RESTRICTED)) {
+				chain.doFilter(request, response);
+			} else {
+				String contextPath = ((HttpServletRequest) request).getContextPath();
+				((HttpServletResponse) response).sendRedirect(contextPath + "/restricted/home.xhtml");
+			}
+			
 		}
 
 	}

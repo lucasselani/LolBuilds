@@ -27,7 +27,7 @@ public class AppUrlStore implements Serializable {
 		String baseUrl = externalContext.getInitParameter("BaseUrl");
 
 		this.baseUrl = baseUrl;
-		this.loginUrl = baseUrl + "login.xhtml";
-		this.signupUrl = baseUrl + "signup.xhtml";
+		this.loginUrl = baseUrl + "public/login.xhtml";
+		this.signupUrl = baseUrl + "public/signup.xhtml";
     }
 }

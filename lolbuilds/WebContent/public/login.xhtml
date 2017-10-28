@@ -13,7 +13,7 @@
     
     <!-- BODY -->
     <h:body class="align">
-    		<p:graphicImage url="resources/images/logo.png" style = "height: auto;"/>
+    		<p:graphicImage url="/resources/images/logo.png" style = "height: auto;"/>
 			<br/>
 			<div class="grid">
 				<!-- LOGIN -->
@@ -34,7 +34,7 @@
 					</div>
 				</h:form>
 				<br/>
-				<h:outputLabel>Não é membro? <a href="/public/signup.xhtml">Cadastre-se agora</a></h:outputLabel>
+				<h:outputLabel>Não é membro? <a href="#{appUrlStore.signupUrl}">Cadastre-se agora</a></h:outputLabel>
 			</div>
     </h:body>
     
