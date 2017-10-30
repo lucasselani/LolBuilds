@@ -17,9 +17,18 @@ public class AppUrlStore implements Serializable {
 	private String loginUrl = null;
 	private String signupUrl = null;
 
-	public String getBaseUrl() {return baseUrl; }
+	public String getBaseUrl() { return baseUrl; }
 	public String getLoginUrl() { return loginUrl; }
-	public String getSignupUrl() {return signupUrl; }
+	public String getSignupUrl() { return signupUrl; }
+	
+	public void logoutAndRedirect() {
+		SessionContext.getInstance().finishSession();
+		FacesContext
+		.getCurrentInstance()
+		.getApplication()
+		.getNavigationHandler()
+		.handleNavigation(FacesContext.getCurrentInstance(), null, "/home.xhtml?faces-redirect=true");
+	}
 
 	@PostConstruct
     public void init() {

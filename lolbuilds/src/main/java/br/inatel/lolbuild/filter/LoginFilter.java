@@ -2,6 +2,7 @@ package br.inatel.lolbuild.filter;
 
 import java.io.IOException;
 
+import javax.faces.application.ResourceHandler;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -15,10 +16,13 @@ import javax.servlet.http.HttpSession;
 
 import br.inatel.lolbuilds.entity.User;
 
-@WebFilter(filterName = "LoginFilter", urlPatterns = { "*" })
+@WebFilter(filterName = "LoginFilter", urlPatterns = { "*.xhtml" })
 public class LoginFilter implements Filter {
 	private static final String LOGIN = "login";
 	private static final String SIGNUP = "signup";
+	private static final String BASE_URL = "http://localhost:8080/build-online/";
+	private static final String RESOURCES = "javax.faces.resource";
+
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
@@ -28,31 +32,38 @@ public class LoginFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		// TODO Auto-generated method stub
-		User user = null;
-		HttpSession sess = ((HttpServletRequest) request).getSession(false);
-		String url = ((HttpServletRequest) request).getRequestURL().toString();
+	    HttpServletRequest req = (HttpServletRequest) request;
+	    HttpServletResponse res = (HttpServletResponse) response;
+	    
+	    String loginUrl = req.getContextPath() + "/login.xhtml";
+	    String homeUrl = req.getContextPath() + "/home.xhtml";
+	        		
+		HttpSession sess = req.getSession(false);
+		String currentUrl = req.getRequestURL().toString();		
+		String uri = req.getRequestURI();
 		
+		User user = null;
 		if (sess != null) {
 			user = (User) sess.getAttribute("userLogged");
-		}
-
-		if (user == null) {
-			if(url.contains(LOGIN) || url.contains(SIGNUP)) {
-				chain.doFilter(request, response);
-			} else {
-				String contextPath = ((HttpServletRequest) request).getContextPath();
-				((HttpServletResponse) response).sendRedirect(contextPath + "/login.xhtml");
-			}
-		} else {
-			if(url.contains(LOGIN) || url.contains(SIGNUP)) {
-				String contextPath = ((HttpServletRequest) request).getContextPath();
-				((HttpServletResponse) response).sendRedirect(contextPath + "/home.xhtml");				
-			} else {
-				chain.doFilter(request, response);
-			}
-			
-		}
-
+		}		
+	    
+	    if (uri.contains(RESOURCES)){
+	        chain.doFilter(request, response);
+	    } else {
+	    	if(user == null) {
+	    		if(!(currentUrl.contains(LOGIN) || currentUrl.contains(SIGNUP) || currentUrl.equals(BASE_URL))) {
+	    			res.sendRedirect(loginUrl);
+	    		} else {
+	    			chain.doFilter(request, response);
+	    		}
+	    	} else {
+	    		if(currentUrl.contains(LOGIN) || currentUrl.contains(SIGNUP) || currentUrl.equals(BASE_URL)) {
+	    			res.sendRedirect(homeUrl);
+	    		} else {
+	    			chain.doFilter(request, response);
+	    		}
+	    	}	    	
+	    }
 	}
 
 	@Override

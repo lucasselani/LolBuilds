@@ -16,7 +16,7 @@
 	</h:head>
 	
 	<h:body class="align">
-		<div class='nav'>
+		<h:form class='nav'>
 			<ul>
 				<p:graphicImage url="resources/images/logo.png" style="float:left; max-width:200px; padding:15px;" />
 				<li><a href='home.xhtml'>Início</a></li>
@@ -31,10 +31,12 @@
 				</li>
 				<li><a href='champions.xhtml'>Campeões</a></li>
 				<li><a href='nova-build.xhtml'>Nova Build</a></li>
-				<li style="float: right;"><a href='#'>Sair</a></li>
+				<li style="float: right;">
+					<h:commandLink action='#{appUrlStore.logoutAndRedirect}' value="Sair"/>				
+				</li>
 				<li class='lamp'><span></span></li>
 			</ul>
-		</div>
+		</h:form>
 		<ui:insert name="content"></ui:insert>
 		<div class='bottomNav'>
 			<div id="box">AC 328 - BUILD ONLINE - INATEL @ 2017</div>
