@@ -42,7 +42,7 @@ public class LoginBean implements Serializable {
 				.getCurrentInstance()
 				.getApplication()
 				.getNavigationHandler()
-				.handleNavigation(FacesContext.getCurrentInstance(), null, "/restricted/home.xhtml?faces-redirect=true");
+				.handleNavigation(FacesContext.getCurrentInstance(), null, "/home.xhtml?faces-redirect=true");
 		}
 	}
     public User getUser() {

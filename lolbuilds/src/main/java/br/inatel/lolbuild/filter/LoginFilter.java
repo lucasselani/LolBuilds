@@ -17,7 +17,8 @@ import br.inatel.lolbuilds.entity.User;
 
 @WebFilter(filterName = "LoginFilter", urlPatterns = { "*" })
 public class LoginFilter implements Filter {
-	private static final String RESTRICTED = "restricted";
+	private static final String LOGIN = "login";
+	private static final String SIGNUP = "signup";
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
@@ -36,18 +37,18 @@ public class LoginFilter implements Filter {
 		}
 
 		if (user == null) {
-			if(url.contains(RESTRICTED)) {
-				String contextPath = ((HttpServletRequest) request).getContextPath();
-				((HttpServletResponse) response).sendRedirect(contextPath + "/public/login.xhtml");
-			} else {
+			if(url.contains(LOGIN) || url.contains(SIGNUP)) {
 				chain.doFilter(request, response);
+			} else {
+				String contextPath = ((HttpServletRequest) request).getContextPath();
+				((HttpServletResponse) response).sendRedirect(contextPath + "/login.xhtml");
 			}
 		} else {
-			if(url.contains(RESTRICTED)) {
-				chain.doFilter(request, response);
-			} else {
+			if(url.contains(LOGIN) || url.contains(SIGNUP)) {
 				String contextPath = ((HttpServletRequest) request).getContextPath();
-				((HttpServletResponse) response).sendRedirect(contextPath + "/restricted/home.xhtml");
+				((HttpServletResponse) response).sendRedirect(contextPath + "/home.xhtml");				
+			} else {
+				chain.doFilter(request, response);
 			}
 			
 		}

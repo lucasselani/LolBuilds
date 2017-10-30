@@ -42,7 +42,7 @@ public class RegisterBean {
 			.getCurrentInstance()
 			.getApplication()
 			.getNavigationHandler()
-			.handleNavigation(FacesContext.getCurrentInstance(), null, "/public/login.xhtml");			
+			.handleNavigation(FacesContext.getCurrentInstance(), null, "/login.xhtml");			
 		}
 	}
 
