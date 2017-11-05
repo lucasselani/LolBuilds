@@ -1,47 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
-
-	<h:outputScript library="js" name="jquery.min.js" target="head" />
-	<h:outputScript library="js" name="navbar.js" target="head" />
-	<h:outputStylesheet library="css" name="style.css" target="head" />
-	<h:outputStylesheet library="css" name="font-awesome.css" target="head" />
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
 	
-	<h:head>
-		<title><ui:insert name="title"></ui:insert></title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	</h:head>
+	<!-- STYLESHEETS -->
+	<link rel="stylesheet" href="resources/css/navbar.css"></link>
+	<link rel="stylesheet" href="resources/css/font-awesome.css"></link>
 	
-	<h:body class="align">
-		<h:form class='nav'>
-			<ul>
-				<p:graphicImage url="resources/images/logo.png" style="float:left; max-width:200px; padding:15px;" />
-				<li><a href='home.xhtml'>Início</a></li>
-				<li><a href='builds.xhtml'>Builds</a>
+	<!-- SCRIPTS -->
+	<script src="resources/js/jquery.min.js"></script>
+	<script src="resources/js/navbar.js"></script>
+	<script src="resources/js/config.js"></script>    
+	
+	<ui:insert name="head"></ui:insert>
+		
+	<body>
+		<div class="page-wrap">
+			<div id="templatemo_header">
+				<h:form class='nav'>
 					<ul>
-						<li><a href='#'>Topo</a></li>
-						<li><a href='#'>Meio</a></li>
-						<li><a href='#'>Selva</a></li>
-						<li><a href='#'>Atirador</a></li>
-						<li><a href='#'>Suporte</a></li>
+						<p:graphicImage url="resources/images/logo.png" style="float:left; max-width:200px; padding:15px;" />
+						<li><a href='home.xhtml'>Início</a></li>
+						<li><a href='builds.xhtml'>Builds</a>
+							<ul>
+								<li><a href='#'>Topo</a></li>
+								<li><a href='#'>Meio</a></li>
+								<li><a href='#'>Selva</a></li>
+								<li><a href='#'>Atirador</a></li>
+								<li><a href='#'>Suporte</a></li>
+							</ul>
+						</li>
+						<li><a href='champions.xhtml'>Campeões</a></li>
+						<li><a href='nova-build.xhtml'>Nova Build</a></li>
+						<li style="float: right;">
+							<h:commandLink action='#{appUrlStore.logoutAndRedirect}' value="Sair"/>							
+						</li>
+						<li class='lamp'><span></span></li>
 					</ul>
-				</li>
-				<li><a href='champions.xhtml'>Campeões</a></li>
-				<li><a href='nova-build.xhtml'>Nova Build</a></li>
-				<li style="float: right;">
-					<h:commandLink action='#{appUrlStore.logoutAndRedirect}' value="Sair"/>				
-				</li>
-				<li class='lamp'><span></span></li>
-			</ul>
-		</h:form>
-		<ui:insert name="content"></ui:insert>
-		<div class='bottomNav'>
-			<div id="box">AC 328 - BUILD ONLINE - INATEL @ 2017</div>
-			<div id="box2">PROJETO DESENVOLVIDO POR LUCAS SELANI E ALEXANDRE MIZIARA</div>
+				</h:form>
+			</div>		
+			<ui:insert name="content"></ui:insert>
 		</div>
-	</h:body>
+		<div class="site-footer">
+            <div id="templatemo_footer">
+				<span id="box">AC 328 - BUILD ONLINE | INATEL 2017</span><br/>
+				<span id="box2">PROJETO DESENVOLVIDO POR LUCAS SELANI E ALEXANDRE MIZIARA</span>		            
+			</div>  
+	    </div>
+	</body>
 
 </html>
