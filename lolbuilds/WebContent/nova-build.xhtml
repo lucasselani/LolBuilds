@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/template.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"> 
+     
+    <!-- HEADER -->
+    <ui:define name="head">
+		<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    		<title>Nova build</title>
+			<link rel="stylesheet" href="resources/css/grid-list-items.css"></link>
+			<script src="resources/js/angular.min.js"></script>
+			<script src="resources/js/drag-builds.js"></script>
+		</head>
+    </ui:define>
+  
+    <!-- BODY -->
+    <ui:define name="content">
+		<h2>Nova build</h2>
+	    <div class="ng-cloak" data-ng-app="myApp">
+			<div class="container-box" data-ng-controller="Controller" data-ng-init="init()">
+				<div class="aligned-list left-box">
+					<span data-ng-repeat="item in items_data">
+						<a><figure class="icon42x42 border-5 round-corners left">
+							<img data-ng-attr-id="{{item.image.full.substring(0, item.image.full.length - 4)}}" draggable="draggable" item="item" data-ng-src="http://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/{{item.image.full}}" alt=""/>
+						</figure></a>
+					</span>
+				</div>	
+				<div class="aligned-list right-box">
+					<a><figure class="icon84x84 border-5 round-corners left" data-ng-attr-id="item_build_{{x}}" droppable="droppable" drop="handleDrop" item="item"></figure></a><br/>				
+					<span data-ng-repeat="x in [1,2,3,4,5,6]">
+						<a><figure class="icon42x42 border-5 round-corners left" data-ng-attr-id="item_build_{{x}}" droppable="droppable" drop="handleDrop" item="item"></figure></a>
+					</span><br/>
+					<span data-ng-repeat="x in [1,2]" style="right:0;">
+						<a><figure class="icon42x42 border-5 round-corners left" data-ng-attr-id="item_build_{{x}}" droppable="droppable" drop="handleDrop" item="item"></figure></a>
+					</span>								
+				</div>									
+			</div>
+		</div>
+    </ui:define>
+</ui:composition>

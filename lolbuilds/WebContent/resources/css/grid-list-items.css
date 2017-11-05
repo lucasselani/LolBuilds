@@ -1,0 +1,139 @@
+.container-box {
+    display: flex;
+	flex-wrap: wrap;
+	margin: 2em 10em 4em 7.6em;
+}
+
+.aligned-list {
+	font-family: 'Roboto Condensed', Arial, 'Trebuchet MS', Verdana;	
+	display: inline-box;
+	flex-wrap: wrap;
+    border-radius: 8px;
+}
+
+.left-box {
+    padding: 15px; 
+	width: 400px;
+	height: 370px;
+    overflow: overlay;
+    background: #222;
+}
+
+.right-box {
+	margin-left: 3em;
+	margin-top: 1em;
+}
+
+.aligned-list a {
+	display: inline-block;
+	margin-bottom: 23px;
+	margin-left: 8px;
+	width: calc(20% - 4px);
+	margin-right: 8px;
+	text-decoration: none;
+	color: black;
+	text-align: center;
+}
+
+.aligned-list a:nth-of-type(2n) {
+	margin-right: 0;
+}
+
+@media screen and (min-width: 50em) {
+  .aligned-list a {
+    width: calc(10% - 6px);
+  }
+  
+  .aligned-list a:nth-of-type(2n) {
+    margin-right: 8px;
+  }
+  
+  .aligned-list a:nth-of-type(4n) {
+    margin-right: 0;
+  }
+}
+
+.round-corners {
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.icon42x42 {
+    width: 42px;
+    height: 42px;
+}
+
+.icon84x84 {
+    width: 84px;
+    height: 84px;
+}
+
+.text42 {
+    width: 42px;
+    height: auto;
+}
+
+.border-5 {
+    border: 1px solid #888;
+}
+
+.border-5:hover {
+    border-color: #47a513;
+}
+	
+.aligned-list figure {
+  margin: 0;
+  overflow: hidden;
+}
+
+.aligned-list figcaption {
+  margin-top: 15px;
+}
+
+.aligned-list img {
+  border: none;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  background: #ccc;
+  transition: transform .2s ease-in-out;
+}
+
+.aligned-list .p a {
+	display: inline;
+	margin: 0;
+	text-decoration: underline;
+	color: blue;
+}
+
+.champName {
+	font-size: 20px;
+	padding-left: 5px;
+	padding-top: 5px;
+	font-size: 15px;
+	color: #888;
+}
+
+h2 {
+	font-family: 'Roboto Condensed', Arial, 'Trebuchet MS', Verdana;
+    font-size: 23px;
+    font-weight: bold;
+    color: #cbcbcb;
+    height: 35px;
+    line-height: 35px;
+    margin-top:4em;
+    margin-left:5em;
+}
+
+figure {
+	background: #0d0d0d;
+}
+
+body.md-default-theme, body, html.md-default-theme, html {
+    background-color: #2c3338 !important;
+}
+
+md-autocomplete-wrap {
+	margin-top:100px;
+}
