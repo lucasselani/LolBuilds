@@ -5,9 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
-import br.inatel.lolbuilds.entity.Build;
 import br.inatel.lolbuilds.entity.Champion;
 import br.inatel.lolbuilds.entity.Item;
 
@@ -25,6 +23,36 @@ public class ItemDAO {
 		conn = DAO.getInstance().getConnection();
 		return conn;
 	}	
+	
+	public void add(Item item) {
+		try {
+			String queryString = "insert into champion (name,description,image,gold,stats) values (?,?,?,?)";
+			connection = getConnection();
+			ptmt = connection.prepareStatement(queryString);
+			ptmt.setString(1, item.getName());
+			ptmt.setString(2, item.getDescription());
+			ptmt.setString(3, item.getImage());
+			ptmt.setInt(4, item.getGold());
+			ptmt.setString(5, item.getStats());
+			ptmt.executeUpdate();
+			System.out.println("Item adicionado com sucesso!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (ptmt != null)
+					ptmt.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+
+	}
 	
 	public Item findItemByName(String name) {
 		try {

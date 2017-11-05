@@ -1,6 +1,8 @@
 package br.inatel.lolbuilds.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
+
 import javax.persistence.*;
 
 
@@ -16,13 +18,22 @@ public class Build implements Serializable {
 	@Id
 	private int id;
 
-	@Column(name="champion_id")
-	private int championId;
-
 	private String name;
 
 	@Column(name="user_id")
 	private int userId;
+	
+	@JoinTable(name="build_has_item")
+	@ManyToMany
+	private Collection<Item> item;
+
+	public Collection<Item> getItems() {
+		return item;
+	}
+
+	public void setItems(Collection<Item> items) {
+		this.item = items;
+	}
 
 	public Build() {
 	}
@@ -33,14 +44,6 @@ public class Build implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getChampionId() {
-		return this.championId;
-	}
-
-	public void setChampionId(int championId) {
-		this.championId = championId;
 	}
 
 	public String getName() {

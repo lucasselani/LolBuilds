@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import br.inatel.lolbuilds.entity.Build;
 import br.inatel.lolbuilds.entity.Champion;
+import br.inatel.lolbuilds.entity.User;
 
 public class ChampionDAO {
 	Connection connection = null;
@@ -24,6 +25,36 @@ public class ChampionDAO {
 		conn = DAO.getInstance().getConnection();
 		return conn;
 	}	
+	
+	public void add(Champion champion) {
+		try {
+			String queryString = "insert into champion (name,blurb,image,tags,build_id) values (?,?,?,?)";
+			connection = getConnection();
+			ptmt = connection.prepareStatement(queryString);
+			ptmt.setString(1, champion.getName());
+			ptmt.setString(2, champion.getBlurb());
+			ptmt.setString(3, champion.getImage());
+			ptmt.setString(4, champion.getTags());
+			ptmt.setInt(5, champion.getBuildId());
+			ptmt.executeUpdate();
+			System.out.println("Champion adicionado com sucesso!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (ptmt != null)
+					ptmt.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+
+	}
 	
 	public Champion findChampionByName(String name) {
 		try {

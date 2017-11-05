@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import br.inatel.lolbuilds.entity.Build;
+import br.inatel.lolbuilds.entity.Champion;
 
 public class BuildDAO {
 	Connection connection = null;
@@ -24,6 +25,32 @@ public class BuildDAO {
 		return conn;
 	}	
 	
+	public void add(Build build) {
+		try {
+			String queryString = "insert into build (name) values (?)";
+			connection = getConnection();
+			ptmt = connection.prepareStatement(queryString);
+			ptmt.setString(1, build.getName());
+			ptmt.executeUpdate();
+			System.out.println("Build adicionado com sucesso!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (ptmt != null)
+					ptmt.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+
+	}
+	
 	public ArrayList<Build> findBuildByName(String name) {
 		try {
 			String queryString = "SELECT * FROM build WHERE name LIKE %?%";
@@ -35,7 +62,6 @@ public class BuildDAO {
 			ArrayList<Build> builds = new ArrayList<>();
 			while (resultSet.next()) {
 				Build build = new Build();
-				build.setChampionId(resultSet.getInt("champion_id"));
 				build.setId(resultSet.getInt("id"));
 				build.setUserId(resultSet.getInt("user_id"));
 				build.setName(resultSet.getString("name"));

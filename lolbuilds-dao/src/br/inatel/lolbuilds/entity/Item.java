@@ -1,6 +1,8 @@
 package br.inatel.lolbuilds.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
+
 import javax.persistence.*;
 
 
@@ -25,6 +27,17 @@ public class Item implements Serializable {
 	private String name;
 
 	private String stats;
+	
+	@ManyToMany(mappedBy = "item")
+	private Collection<Build> build;
+
+	public Collection<Build> getBuilds() {
+		return build;
+	}
+
+	public void setBuilds(Collection<Build> builds) {
+		this.build = builds;
+	}
 
 	public Item() {
 	}

@@ -23,8 +23,20 @@ public class Champion implements Serializable {
 	private String name;
 
 	private String tags;
+	
+	@Column(name="champion_id")
+	private int buildId;
+
 
 	public Champion() {
+	}
+
+	public int getBuildId() {
+		return buildId;
+	}
+
+	public void setBuildId(int buildId) {
+		this.buildId = buildId;
 	}
 
 	public int getId() {
