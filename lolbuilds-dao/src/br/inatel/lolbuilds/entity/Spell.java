@@ -4,16 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
 
-
-/**
- * The persistent class for the item database table.
- * 
- */
 @Entity
-@NamedQuery(name="Item.findAll", query="SELECT i FROM Item i")
-public class Item implements Serializable {
+@NamedQuery(name="Spell.findAll", query="SELECT s FROM Spell s")
+public class Spell implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -23,10 +21,10 @@ public class Item implements Serializable {
 
 	private String name;
 	
-	@ManyToMany(mappedBy = "item")
+	@ManyToMany(mappedBy = "spell")
 	private Collection<Build> build;
 	
-	public Item() {
+	public Spell() {
 	}
 
 	public Collection<Build> getBuilds() {
@@ -67,5 +65,4 @@ public class Item implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
 }

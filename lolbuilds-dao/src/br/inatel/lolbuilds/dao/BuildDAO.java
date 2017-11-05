@@ -5,15 +5,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
-import br.inatel.lolbuilds.entity.User;
+import br.inatel.lolbuilds.entity.Build;
+import br.inatel.lolbuilds.entity.Champion;
 
-public class UserDAO {
+public class BuildDAO {
 	Connection connection = null;
 	PreparedStatement ptmt = null;
 	ResultSet resultSet = null;
 
-	public UserDAO() {
+	public BuildDAO() {
 
 	}
 
@@ -21,83 +23,16 @@ public class UserDAO {
 		Connection conn;
 		conn = DAO.getInstance().getConnection();
 		return conn;
-	}
+	}	
 	
-	public boolean login(User user) {
+	public void add(Build build) {
 		try {
-			String queryString = "SELECT username, password FROM user WHERE username=?";
+			String queryString = "insert into build (name) values (?)";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
-			ptmt.setString(1, user.getUsername());
-			resultSet = ptmt.executeQuery();
-
-			while (resultSet.next()) {
-				String password = resultSet.getString("password");
-				if(password.equals(user.getPassword())) {
-					return true;
-				}				
-		    }
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (resultSet != null)
-					resultSet.close();
-				if (ptmt != null)
-					ptmt.close();
-				if (connection != null)
-					connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}	
-		}
-		return false;
-	}
-	
-	public boolean findUsername(String username) {
-		try {
-			String queryString = "SELECT username FROM user WHERE username=?";
-			connection = getConnection();
-			ptmt = connection.prepareStatement(queryString);
-			ptmt.setString(1, username);
-			resultSet = ptmt.executeQuery();
-
-			while (resultSet.next()) {
-				String usernameSql = resultSet.getString("username");
-				if(username.equals(usernameSql)) {
-					return true;
-				}				
-		    }
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (resultSet != null)
-					resultSet.close();
-				if (ptmt != null)
-					ptmt.close();
-				if (connection != null)
-					connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}	
-		}
-		return false;
-	}
-
-	public void register(User user) {
-		try {
-			String queryString = "insert into user (username, password) values (?,?)";
-			connection = getConnection();
-			ptmt = connection.prepareStatement(queryString);
-			ptmt.setString(1, user.getUsername());
-			ptmt.setString(2, user.getPassword());
+			ptmt.setString(1, build.getName());
 			ptmt.executeUpdate();
-			System.out.println("Usuário adicionado com sucesso!");
+			System.out.println("Build adicionado com sucesso!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -115,40 +50,99 @@ public class UserDAO {
 		}
 
 	}
-
-	public void update(User user) {
-
+	
+	public int findBuildIdByName(String name) {
 		try {
-			String sql = "update user set";
+			String queryString = "SELECT id FROM build WHERE name=?";
+			connection = getConnection();
+			ptmt = connection.prepareStatement(queryString);
+			ptmt.setString(1, name);
+			resultSet = ptmt.executeQuery();
+			
+			while (resultSet.next()) {
+				return resultSet.getInt("id");
+		    }
+			return -1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		} finally {
+			try {
+				if (resultSet != null)
+					resultSet.close();
+				if (ptmt != null)
+					ptmt.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
+		}		
+	}
+	
+	public ArrayList<Build> searchBuildsByName(String name) {
+		try {
+			String queryString = "SELECT * FROM build WHERE name LIKE %?%";
+			connection = getConnection();
+			ptmt = connection.prepareStatement(queryString);
+			ptmt.setString(1, name);
+			resultSet = ptmt.executeQuery();
+			
+			ArrayList<Build> builds = new ArrayList<>();
+			while (resultSet.next()) {
+				Build build = new Build();
+				build.setId(resultSet.getInt("id"));
+				build.setUserId(resultSet.getInt("user_id"));
+				build.setName(resultSet.getString("name"));
+				builds.add(build);
+		    }
+			return builds;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				if (resultSet != null)
+					resultSet.close();
+				if (ptmt != null)
+					ptmt.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
+		}		
+	}	
+
+	public void update(Build build) {
+		try {
+			String sql = "update build set";
 			connection = getConnection();
 			Statement stm = connection.createStatement();
-			if(user.getUsername() != null) {
-				sql += " username='" + user.getUsername() + "'";
-				if(user.getPassword() != null) {
-					sql += ",password='" + user.getPassword() + "'";
-				}
-			} else if(user.getPassword()!=null) {
-				sql += " password='" + user.getPassword() + "'";
-			} 
-			sql += " WHERE id=" + user.getId() + ";";
-			System.out.println(sql);
+			
+			sql += " name='" + build.getName() + "'";			
+			sql += " WHERE id=" + build.getId() + ";";
+
 			stm.execute(sql);
-			System.out.println("Usuário atualizado com sucesso!");
+			System.out.println("Build atualizada com sucesso!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (ptmt != null)
+				if (ptmt != null) {
 					ptmt.close();
-				if (connection != null)
+				}					
+				if (connection != null) {
 					connection.close();
-			}
-
-			catch (SQLException e) {
+				}					
+			} catch (SQLException e) {
 				e.printStackTrace();
 			} catch (Exception e) {
 				e.printStackTrace();
-
 			}
 		}
 	}
@@ -156,7 +150,7 @@ public class UserDAO {
 	public void delete(int id) {
 
 		try {
-			String queryString = "DELETE FROM user WHERE id=?";
+			String queryString = "DELETE FROM build WHERE id=?";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
 			ptmt.setInt(1, id);
@@ -182,7 +176,7 @@ public class UserDAO {
 
 	public void list() {
 		try {
-			String queryString = "SELECT * FROM user";
+			String queryString = "SELECT * FROM build";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
 			resultSet = ptmt.executeQuery();

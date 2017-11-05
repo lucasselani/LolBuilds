@@ -5,15 +5,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
+import br.inatel.lolbuilds.entity.Build;
+import br.inatel.lolbuilds.entity.Champion;
 import br.inatel.lolbuilds.entity.User;
 
-public class UserDAO {
+public class ChampionDAO {
 	Connection connection = null;
 	PreparedStatement ptmt = null;
 	ResultSet resultSet = null;
 
-	public UserDAO() {
+	public ChampionDAO() {
 
 	}
 
@@ -21,83 +24,18 @@ public class UserDAO {
 		Connection conn;
 		conn = DAO.getInstance().getConnection();
 		return conn;
-	}
+	}	
 	
-	public boolean login(User user) {
+	public void add(Champion champion) {
 		try {
-			String queryString = "SELECT username, password FROM user WHERE username=?";
+			String queryString = "insert into champion (name,image,build_id) values (?,?,?)";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
-			ptmt.setString(1, user.getUsername());
-			resultSet = ptmt.executeQuery();
-
-			while (resultSet.next()) {
-				String password = resultSet.getString("password");
-				if(password.equals(user.getPassword())) {
-					return true;
-				}				
-		    }
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (resultSet != null)
-					resultSet.close();
-				if (ptmt != null)
-					ptmt.close();
-				if (connection != null)
-					connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}	
-		}
-		return false;
-	}
-	
-	public boolean findUsername(String username) {
-		try {
-			String queryString = "SELECT username FROM user WHERE username=?";
-			connection = getConnection();
-			ptmt = connection.prepareStatement(queryString);
-			ptmt.setString(1, username);
-			resultSet = ptmt.executeQuery();
-
-			while (resultSet.next()) {
-				String usernameSql = resultSet.getString("username");
-				if(username.equals(usernameSql)) {
-					return true;
-				}				
-		    }
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (resultSet != null)
-					resultSet.close();
-				if (ptmt != null)
-					ptmt.close();
-				if (connection != null)
-					connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}	
-		}
-		return false;
-	}
-
-	public void register(User user) {
-		try {
-			String queryString = "insert into user (username, password) values (?,?)";
-			connection = getConnection();
-			ptmt = connection.prepareStatement(queryString);
-			ptmt.setString(1, user.getUsername());
-			ptmt.setString(2, user.getPassword());
+			ptmt.setString(1, champion.getName());
+			ptmt.setString(2, champion.getImage());
+			ptmt.setInt(3, champion.getBuildId());
 			ptmt.executeUpdate();
-			System.out.println("Usuário adicionado com sucesso!");
+			System.out.println("Champion adicionado com sucesso!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -115,40 +53,69 @@ public class UserDAO {
 		}
 
 	}
-
-	public void update(User user) {
-
+	
+	public Champion findChampionByName(String name) {
 		try {
-			String sql = "update user set";
+			String queryString = "SELECT * FROM champion WHERE name=?";
+			connection = getConnection();
+			ptmt = connection.prepareStatement(queryString);
+			ptmt.setString(1, name);
+			resultSet = ptmt.executeQuery();			
+
+			while (resultSet.next()) {
+				Champion champion = new Champion();
+				champion.setName(resultSet.getString("name"));
+				champion.setImage(resultSet.getString("image"));
+				champion.setId(resultSet.getInt("id"));
+				return champion;
+		    }
+			return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				if (resultSet != null)
+					resultSet.close();
+				if (ptmt != null)
+					ptmt.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
+		}		
+	}	
+
+	public void update(Champion champion) {
+		try {
+			String sql = "update champion set";
 			connection = getConnection();
 			Statement stm = connection.createStatement();
-			if(user.getUsername() != null) {
-				sql += " username='" + user.getUsername() + "'";
-				if(user.getPassword() != null) {
-					sql += ",password='" + user.getPassword() + "'";
-				}
-			} else if(user.getPassword()!=null) {
-				sql += " password='" + user.getPassword() + "'";
-			} 
-			sql += " WHERE id=" + user.getId() + ";";
-			System.out.println(sql);
+			
+			if(champion.getName() != null) {
+				sql += " name='" + champion.getName() + "'";
+			}						
+			sql += " WHERE id=" + champion.getId() + ";";
+
 			stm.execute(sql);
-			System.out.println("Usuário atualizado com sucesso!");
+			System.out.println("Build atualizada com sucesso!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (ptmt != null)
+				if (ptmt != null) {
 					ptmt.close();
-				if (connection != null)
+				}					
+				if (connection != null) {
 					connection.close();
-			}
-
-			catch (SQLException e) {
+				}					
+			} catch (SQLException e) {
 				e.printStackTrace();
 			} catch (Exception e) {
 				e.printStackTrace();
-
 			}
 		}
 	}
@@ -156,7 +123,7 @@ public class UserDAO {
 	public void delete(int id) {
 
 		try {
-			String queryString = "DELETE FROM user WHERE id=?";
+			String queryString = "DELETE FROM champion WHERE id=?";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
 			ptmt.setInt(1, id);
@@ -182,7 +149,7 @@ public class UserDAO {
 
 	public void list() {
 		try {
-			String queryString = "SELECT * FROM user";
+			String queryString = "SELECT * FROM champion";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
 			resultSet = ptmt.executeQuery();
