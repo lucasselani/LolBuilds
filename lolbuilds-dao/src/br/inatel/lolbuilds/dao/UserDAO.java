@@ -122,13 +122,10 @@ public class UserDAO {
 			String sql = "update user set";
 			connection = getConnection();
 			Statement stm = connection.createStatement();
-			if(user.getEmail() != null) {
-				sql += " email='" + user.getEmail() + "'";
+			if(user.getUsername() != null) {
+				sql += " username='" + user.getUsername() + "'";
 				if(user.getPassword() != null) {
 					sql += ",password='" + user.getPassword() + "'";
-				}
-				if(user.getUsername() != null) {
-					sql += ",username='" + user.getUsername() + "'";
 				}
 			} else if(user.getPassword()!=null) {
 				sql += " password='" + user.getPassword() + "'";

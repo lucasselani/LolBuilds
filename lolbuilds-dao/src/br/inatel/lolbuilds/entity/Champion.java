@@ -16,15 +16,11 @@ public class Champion implements Serializable {
 	@Id
 	private int id;
 
-	private String blurb;
-
 	private String image;
 
 	private String name;
 
-	private String tags;
-	
-	@Column(name="champion_id")
+	@Column(name="build_id")
 	private int buildId;
 
 
@@ -47,14 +43,6 @@ public class Champion implements Serializable {
 		this.id = id;
 	}
 
-	public String getBlurb() {
-		return this.blurb;
-	}
-
-	public void setBlurb(String blurb) {
-		this.blurb = blurb;
-	}
-
 	public String getImage() {
 		return this.image;
 	}
@@ -70,13 +58,4 @@ public class Champion implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public String getTags() {
-		return this.tags;
-	}
-
-	public void setTags(String tags) {
-		this.tags = tags;
-	}
-
 }

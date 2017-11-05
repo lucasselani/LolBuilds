@@ -16,8 +16,6 @@ public class User implements Serializable {
 	@Id
 	private int id;
 
-	private String email;
-
 	private String password;
 	
 	private String username;
@@ -36,14 +34,6 @@ public class User implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getEmail() {
-		return this.email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public String getPassword() {

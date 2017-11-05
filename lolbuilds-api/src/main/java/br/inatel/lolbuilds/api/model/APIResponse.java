@@ -1,4 +1,4 @@
-package br.inatel.lolbuilds.api;
+package br.inatel.lolbuilds.api.model;
 
 import java.io.Serializable;
 

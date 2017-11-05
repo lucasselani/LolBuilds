@@ -26,14 +26,11 @@ public class ItemDAO {
 	
 	public void add(Item item) {
 		try {
-			String queryString = "insert into champion (name,description,image,gold,stats) values (?,?,?,?)";
+			String queryString = "insert into item (name,image) values (?,?)";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
 			ptmt.setString(1, item.getName());
-			ptmt.setString(2, item.getDescription());
-			ptmt.setString(3, item.getImage());
-			ptmt.setInt(4, item.getGold());
-			ptmt.setString(5, item.getStats());
+			ptmt.setString(2, item.getImage());
 			ptmt.executeUpdate();
 			System.out.println("Item adicionado com sucesso!");
 		} catch (SQLException e) {
@@ -64,11 +61,8 @@ public class ItemDAO {
 
 			while (resultSet.next()) {
 				Item item = new Item();
-				item.setDescription(resultSet.getString("description"));
 				item.setImage(resultSet.getString("image"));
 				item.setName(resultSet.getString("name"));
-				item.setStats(resultSet.getString("stats"));
-				item.setGold(resultSet.getInt("gold"));
 				item.setId(resultSet.getInt("id"));
 				return item;
 		    }
@@ -94,7 +88,7 @@ public class ItemDAO {
 
 	public void update(Item item) {
 		try {
-			String sql = "update build set";
+			String sql = "update item set";
 			connection = getConnection();
 			Statement stm = connection.createStatement();
 			

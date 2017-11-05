@@ -28,14 +28,12 @@ public class ChampionDAO {
 	
 	public void add(Champion champion) {
 		try {
-			String queryString = "insert into champion (name,blurb,image,tags,build_id) values (?,?,?,?)";
+			String queryString = "insert into champion (name,image,build_id) values (?,?,?)";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
 			ptmt.setString(1, champion.getName());
-			ptmt.setString(2, champion.getBlurb());
-			ptmt.setString(3, champion.getImage());
-			ptmt.setString(4, champion.getTags());
-			ptmt.setInt(5, champion.getBuildId());
+			ptmt.setString(2, champion.getImage());
+			ptmt.setInt(3, champion.getBuildId());
 			ptmt.executeUpdate();
 			System.out.println("Champion adicionado com sucesso!");
 		} catch (SQLException e) {
@@ -66,8 +64,6 @@ public class ChampionDAO {
 
 			while (resultSet.next()) {
 				Champion champion = new Champion();
-				champion.setTags(resultSet.getString("tags"));
-				champion.setBlurb(resultSet.getString("blurb"));
 				champion.setName(resultSet.getString("name"));
 				champion.setImage(resultSet.getString("image"));
 				champion.setId(resultSet.getInt("id"));

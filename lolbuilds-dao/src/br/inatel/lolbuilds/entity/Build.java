@@ -26,6 +26,21 @@ public class Build implements Serializable {
 	@JoinTable(name="build_has_item")
 	@ManyToMany
 	private Collection<Item> item;
+	
+	@JoinTable(name="build_has_spell")
+	@ManyToMany
+	private Collection<Spell> spell;
+	
+	public Build() {
+	}	
+	
+	public Collection<Spell> getSpells() {
+		return spell;
+	}
+
+	public void setSpells(Collection<Spell> spell) {
+		this.spell = spell;
+	}
 
 	public Collection<Item> getItems() {
 		return item;
@@ -35,8 +50,6 @@ public class Build implements Serializable {
 		this.item = items;
 	}
 
-	public Build() {
-	}
 
 	public int getId() {
 		return this.id;

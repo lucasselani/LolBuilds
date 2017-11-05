@@ -5,17 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
-import br.inatel.lolbuilds.entity.Build;
-import br.inatel.lolbuilds.entity.Champion;
+import br.inatel.lolbuilds.entity.Spell;
 
-public class BuildDAO {
+public class SpellDAO {
 	Connection connection = null;
 	PreparedStatement ptmt = null;
 	ResultSet resultSet = null;
 
-	public BuildDAO() {
+	public SpellDAO() {
 
 	}
 
@@ -25,14 +23,15 @@ public class BuildDAO {
 		return conn;
 	}	
 	
-	public void add(Build build) {
+	public void add(Spell spell) {
 		try {
-			String queryString = "insert into build (name) values (?)";
+			String queryString = "insert into spell (name,image) values (?,?)";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
-			ptmt.setString(1, build.getName());
+			ptmt.setString(1, spell.getName());
+			ptmt.setString(2, spell.getImage());
 			ptmt.executeUpdate();
-			System.out.println("Build adicionado com sucesso!");
+			System.out.println("Spell adicionado com sucesso!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -51,54 +50,22 @@ public class BuildDAO {
 
 	}
 	
-	public int findBuildIdByName(String name) {
+	public Spell findSpellByName(String name) {
 		try {
-			String queryString = "SELECT id FROM build WHERE name=?";
+			String queryString = "SELECT * FROM spell WHERE name=?";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
 			ptmt.setString(1, name);
 			resultSet = ptmt.executeQuery();
-			
+
 			while (resultSet.next()) {
-				return resultSet.getInt("id");
+				Spell spell = new Spell();
+				spell.setImage(resultSet.getString("image"));
+				spell.setName(resultSet.getString("name"));
+				spell.setId(resultSet.getInt("id"));
+				return spell;
 		    }
-			return -1;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return -1;
-		} finally {
-			try {
-				if (resultSet != null)
-					resultSet.close();
-				if (ptmt != null)
-					ptmt.close();
-				if (connection != null)
-					connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}	
-		}		
-	}
-	
-	public ArrayList<Build> searchBuildsByName(String name) {
-		try {
-			String queryString = "SELECT * FROM build WHERE name LIKE %?%";
-			connection = getConnection();
-			ptmt = connection.prepareStatement(queryString);
-			ptmt.setString(1, name);
-			resultSet = ptmt.executeQuery();
-			
-			ArrayList<Build> builds = new ArrayList<>();
-			while (resultSet.next()) {
-				Build build = new Build();
-				build.setId(resultSet.getInt("id"));
-				build.setUserId(resultSet.getInt("user_id"));
-				build.setName(resultSet.getString("name"));
-				builds.add(build);
-		    }
-			return builds;
+			return null;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -118,17 +85,19 @@ public class BuildDAO {
 		}		
 	}	
 
-	public void update(Build build) {
+	public void update(Spell spell) {
 		try {
-			String sql = "update build set";
+			String sql = "update spell set";
 			connection = getConnection();
 			Statement stm = connection.createStatement();
 			
-			sql += " name='" + build.getName() + "'";			
-			sql += " WHERE id=" + build.getId() + ";";
+			if(spell.getName() != null) {
+				sql += " name='" + spell.getName() + "'";
+			}							
+			sql += " WHERE id=" + spell.getId() + ";";
 
 			stm.execute(sql);
-			System.out.println("Build atualizada com sucesso!");
+			System.out.println("Spell atualizado com sucesso!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -150,7 +119,7 @@ public class BuildDAO {
 	public void delete(int id) {
 
 		try {
-			String queryString = "DELETE FROM build WHERE id=?";
+			String queryString = "DELETE FROM spell WHERE id=?";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
 			ptmt.setInt(1, id);
@@ -176,7 +145,7 @@ public class BuildDAO {
 
 	public void list() {
 		try {
-			String queryString = "SELECT * FROM build";
+			String queryString = "SELECT * FROM spell";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
 			resultSet = ptmt.executeQuery();

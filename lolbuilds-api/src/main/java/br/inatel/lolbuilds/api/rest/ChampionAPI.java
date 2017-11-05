@@ -1,4 +1,4 @@
-package br.inatel.lolbuilds.api;
+package br.inatel.lolbuilds.api.rest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,23 +12,22 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import br.inatel.lolbuilds.dao.BuildDAO;
+import br.inatel.lolbuilds.api.model.APIResponse;
 import br.inatel.lolbuilds.dao.ChampionDAO;
 import br.inatel.lolbuilds.dao.ItemDAO;
-import br.inatel.lolbuilds.entity.Build;
 import br.inatel.lolbuilds.entity.Champion;
 import br.inatel.lolbuilds.entity.Item;
 
 @Path("/item")
-public class ItemAPI {
+public class ChampionAPI {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Item> get(@QueryParam("id") Integer id, @QueryParam("name") String name) {
+	public List<Champion> get(@QueryParam("id") Integer id, @QueryParam("name") String name) {
 		try {
-			ItemDAO dao = new ItemDAO();
-			ArrayList<Item> items = new ArrayList<Item>();
-			items.add(dao.findItemByName(name));
-			return items;
+			ChampionDAO dao = new ChampionDAO();
+			ArrayList<Champion> champions = new ArrayList<Champion>();
+			champions.add(dao.findChampionByName(name));
+			return champions;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -38,10 +37,10 @@ public class ItemAPI {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public APIResponse post(Item newItem) throws Exception {
+	public APIResponse post(Champion newChampion) throws Exception {
 		try {
-			ItemDAO dao = new ItemDAO();
-			dao.add(newItem);
+			ChampionDAO dao = new ChampionDAO();
+			dao.add(newChampion);
 			return new APIResponse("OK","");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -52,10 +51,10 @@ public class ItemAPI {
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public APIResponse delete(Item item) throws Exception {
+	public APIResponse delete(Champion champion) throws Exception {
 		try {
 			ItemDAO dao = new ItemDAO();
-			dao.delete(item.getId());
+			dao.delete(champion.getId());
 			return new APIResponse("OK","");
 		} catch (Exception e) {
 			e.printStackTrace();
