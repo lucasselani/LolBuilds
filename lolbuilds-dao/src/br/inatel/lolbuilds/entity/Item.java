@@ -23,25 +23,7 @@ public class Item implements Serializable {
 
 	private String name;
 	
-	@ManyToMany(mappedBy = "item")
-	private Collection<Build> build;
-	
 	public Item() {
-	}
-
-	public Collection<Build> getBuilds() {
-		return build;
-	}
-
-	public void setBuilds(Collection<Build> builds) {
-		this.build = builds;
-	}
-	
-	public void setBuild(Build build) {
-		if(this.build == null) {
-			this.build = new ArrayList<Build>();
-		}
-		this.build.add(build);
 	}
 
 	public int getId() {

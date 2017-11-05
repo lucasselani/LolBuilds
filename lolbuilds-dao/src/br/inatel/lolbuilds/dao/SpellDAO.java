@@ -25,13 +25,18 @@ public class SpellDAO {
 	
 	public void add(Spell spell) {
 		try {
-			String queryString = "insert into spell (name,image) values (?,?)";
-			connection = getConnection();
-			ptmt = connection.prepareStatement(queryString);
-			ptmt.setString(1, spell.getName());
-			ptmt.setString(2, spell.getImage());
-			ptmt.executeUpdate();
-			System.out.println("Spell adicionado com sucesso!");
+			Spell fetchedSpell = findSpellById(spell.getId());
+			if(fetchedSpell == null) {
+				String queryString = "insert into spell (name,image) values (?,?)";
+				connection = getConnection();
+				ptmt = connection.prepareStatement(queryString);
+				ptmt.setString(1, spell.getName());
+				ptmt.setString(2, spell.getImage());
+				ptmt.executeUpdate();
+				System.out.println("Spell adicionado com sucesso!");
+			} else {
+				update(spell);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -50,12 +55,12 @@ public class SpellDAO {
 
 	}
 	
-	public Spell findSpellByName(String name) {
+	public Spell findSpellById(int id) {
 		try {
-			String queryString = "SELECT * FROM spell WHERE name=?";
+			String queryString = "SELECT * FROM spell WHERE id=?";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
-			ptmt.setString(1, name);
+			ptmt.setInt(1, id);
 			resultSet = ptmt.executeQuery();
 
 			while (resultSet.next()) {
@@ -91,9 +96,8 @@ public class SpellDAO {
 			connection = getConnection();
 			Statement stm = connection.createStatement();
 			
-			if(spell.getName() != null) {
-				sql += " name='" + spell.getName() + "'";
-			}							
+			sql += " name='" + spell.getName() + "'";
+			sql += " image='" + spell.getImage() + "'";							
 			sql += " WHERE id=" + spell.getId() + ";";
 
 			stm.execute(sql);

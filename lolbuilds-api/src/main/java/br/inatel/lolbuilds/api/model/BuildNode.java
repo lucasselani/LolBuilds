@@ -10,17 +10,9 @@ public class BuildNode {
 	private ArrayList<Spell> spells;
 	private Champion champion;
 	private String name;
-	private int userId;
 	
 	public BuildNode() {}	
 	
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
 
 	public ArrayList<Item> getItems() {
 		return items;

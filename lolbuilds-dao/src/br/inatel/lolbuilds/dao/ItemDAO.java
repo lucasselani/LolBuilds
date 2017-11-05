@@ -26,13 +26,18 @@ public class ItemDAO {
 	
 	public void add(Item item) {
 		try {
-			String queryString = "insert into item (name,image) values (?,?)";
-			connection = getConnection();
-			ptmt = connection.prepareStatement(queryString);
-			ptmt.setString(1, item.getName());
-			ptmt.setString(2, item.getImage());
-			ptmt.executeUpdate();
-			System.out.println("Item adicionado com sucesso!");
+			Item fetchedItem = findItemById(item.getId());
+			if(fetchedItem == null) {
+				String queryString = "insert into item (name,image) values (?,?)";
+				connection = getConnection();
+				ptmt = connection.prepareStatement(queryString);
+				ptmt.setString(1, item.getName());
+				ptmt.setString(2, item.getImage());
+				ptmt.executeUpdate();
+				System.out.println("Item adicionado com sucesso!");
+			} else {
+				update(item);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -51,12 +56,12 @@ public class ItemDAO {
 
 	}
 	
-	public Item findItemByName(String name) {
+	public Item findItemById(int id) {
 		try {
-			String queryString = "SELECT * FROM item WHERE name=?";
+			String queryString = "SELECT * FROM item WHERE id=?";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
-			ptmt.setString(1, name);
+			ptmt.setInt(1, id);
 			resultSet = ptmt.executeQuery();
 
 			while (resultSet.next()) {
@@ -92,9 +97,8 @@ public class ItemDAO {
 			connection = getConnection();
 			Statement stm = connection.createStatement();
 			
-			if(item.getName() != null) {
-				sql += " name='" + item.getName() + "'";
-			}							
+			sql += " name='" + item.getName() + "'";
+			sql += " image='" + item.getImage() + "'";	
 			sql += " WHERE id=" + item.getId() + ";";
 
 			stm.execute(sql);

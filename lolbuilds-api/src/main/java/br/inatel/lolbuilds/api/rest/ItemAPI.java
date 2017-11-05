@@ -28,7 +28,7 @@ public class ItemAPI {
 		try {
 			ItemDAO dao = new ItemDAO();
 			ArrayList<Item> items = new ArrayList<Item>();
-			items.add(dao.findItemByName(name));
+			items.add(dao.findItemById(id));
 			return items;
 		} catch (Exception e) {
 			e.printStackTrace();
