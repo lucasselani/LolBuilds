@@ -16,23 +16,30 @@
   
     <!-- BODY -->
     <ui:define name="content">
-		<h2>Nova build</h2>
 	    <div class="ng-cloak" data-ng-app="myApp">
+			<h2>Nova build</h2>
 			<div class="container-box" data-ng-controller="Controller" data-ng-init="init()">
 				<div class="aligned-list left-box">
+					<h3>Feitiços de Invocador</h3>
+					<span data-ng-repeat="item in spells_data">
+						<a><figure class="icon42x42 border-5 round-corners left">
+							<img data-ng-attr-id="spl_{{item.id}}" draggable="draggable" item="item" data-ng-src="http://ddragon.leagueoflegends.com/cdn/6.24.1/img/spell/{{item.image.full}}"/>
+						</figure></a>
+					</span>	
+					<h3>Itens</h3>
 					<span data-ng-repeat="item in items_data">
 						<a><figure class="icon42x42 border-5 round-corners left">
-							<img data-ng-attr-id="{{item.image.full.substring(0, item.image.full.length - 4)}}" draggable="draggable" item="item" data-ng-src="http://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/{{item.image.full}}" alt=""/>
+							<img data-ng-attr-id="itm_{{item.image.full.substring(0, item.image.full.length - 4)}}" draggable="draggable" item="item" data-ng-src="http://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/{{item.image.full}}"/>
 						</figure></a>
-					</span>
+					</span>				
 				</div>	
 				<div class="aligned-list right-box">
-					<a><figure class="icon84x84 border-5 round-corners left" data-ng-attr-id="item_build_{{x}}" droppable="droppable" drop="handleDrop" item="item"></figure></a><br/>				
+					<a><figure class="icon84x84 border-5 round-corners left" data-ng-attr-id="item_build_{{x}}" droppable="droppable" drop="handleDrop" item="item"></figure></a><br/>
 					<span data-ng-repeat="x in [1,2,3,4,5,6]">
-						<a><figure class="icon42x42 border-5 round-corners left" data-ng-attr-id="item_build_{{x}}" droppable="droppable" drop="handleDrop" item="item"></figure></a>
+						<a><figure class="icon42x42 border-5 round-corners left" data-ng-attr-id="itm_rcp{{x}}" droppable="droppable" drop="handleDrop" item="item"></figure></a>
 					</span><br/>
 					<span data-ng-repeat="x in [1,2]" style="right:0;">
-						<a><figure class="icon42x42 border-5 round-corners left" data-ng-attr-id="item_build_{{x}}" droppable="droppable" drop="handleDrop" item="item"></figure></a>
+						<a><figure class="icon42x42 border-5 round-corners left" data-ng-attr-id="spl_rcp_{{x}}" droppable="droppable" drop="handleDrop" item="item"></figure></a>
 					</span>								
 				</div>									
 			</div>

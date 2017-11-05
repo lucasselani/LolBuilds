@@ -6,44 +6,13 @@
     <!-- HEADER -->
     <ui:define name="head">
 		<head>
-			<link rel="stylesheet" href="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.5/angular-material.css"></link>
-			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
-			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
-			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.min.js"></script>
-			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
-			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
-			<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-114/svg-assets-cache.js"></script>
-			<script src="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.5/angular-material.js"></script>
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     		<title>Início</title>
-			<link rel="stylesheet" href="resources/css/grid-list-items.css"></link>
-			<script src="resources/js/drag-builds.js"></script>
 		</head>
     </ui:define>
   
     <!-- BODY -->
     <ui:define name="content">
-		<div data-ng-controller="DemoCtrl as ctrl" layout="column" class="container-box ng-cloak" data-ng-app="MyApp">
-		    <form ng-submit="$event.preventDefault()">
-		      <md-autocomplete ng-disabled="ctrl.isDisabled" md-no-cache="ctrl.noCache" md-selected-item="ctrl.selectedItem" md-search-text-change="ctrl.searchTextChange(ctrl.searchText)" md-search-text="ctrl.searchText" md-selected-item-change="ctrl.selectedItemChange(item)" md-items="item in ctrl.querySearch(ctrl.searchText)" md-item-text="item.name" md-min-length="0" placeholder="Busque por nome de usuário" md-menu-class="autocomplete-custom-template">
-		        <md-item-template>
-		          <span class="item-title">
-		            <md-icon md-svg-icon="img/icons/octicon-repo.svg"></md-icon>
-		            <span> {{item.name}} </span>
-		          </span>
-		          <span class="item-metadata">
-		            <span>
-		              <strong>{{item.watchers}}</strong> watchers
-		            </span>
-		            <span>
-		              <strong>{{item.forks}}</strong> forks
-		            </span>
-		          </span>
-		        </md-item-template>
-		      </md-autocomplete>
-		    </form>
-		</div>		        
-		<h2>Últimas builds</h2>   
     </ui:define>
     
 </ui:composition>
