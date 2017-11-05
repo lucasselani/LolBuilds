@@ -21,25 +21,7 @@ public class Spell implements Serializable {
 
 	private String name;
 	
-	@ManyToMany(mappedBy = "spell")
-	private Collection<Build> build;
-	
 	public Spell() {
-	}
-
-	public Collection<Build> getBuilds() {
-		return build;
-	}
-
-	public void setBuilds(Collection<Build> builds) {
-		this.build = builds;
-	}
-	
-	public void setBuild(Build build) {
-		if(this.build == null) {
-			this.build = new ArrayList<Build>();
-		}
-		this.build.add(build);
 	}
 
 	public int getId() {

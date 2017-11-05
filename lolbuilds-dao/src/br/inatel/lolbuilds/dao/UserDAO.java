@@ -23,9 +23,9 @@ public class UserDAO {
 		return conn;
 	}
 	
-	public boolean login(User user) {
+	public int login(User user) {
 		try {
-			String queryString = "SELECT username, password FROM user WHERE username=?";
+			String queryString = "SELECT * FROM user WHERE username=?";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
 			ptmt.setString(1, user.getUsername());
@@ -34,7 +34,7 @@ public class UserDAO {
 			while (resultSet.next()) {
 				String password = resultSet.getString("password");
 				if(password.equals(user.getPassword())) {
-					return true;
+					return resultSet.getInt("id");
 				}				
 		    }
 		} catch (SQLException e) {
@@ -53,7 +53,7 @@ public class UserDAO {
 				e.printStackTrace();
 			}	
 		}
-		return false;
+		return -1;
 	}
 	
 	public boolean findUsername(String username) {

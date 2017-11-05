@@ -13,10 +13,14 @@ import javax.ws.rs.core.MediaType;
 import br.inatel.lolbuilds.api.model.APIResponse;
 import br.inatel.lolbuilds.api.model.BuildNode;
 import br.inatel.lolbuilds.dao.BuildDAO;
+import br.inatel.lolbuilds.dao.BuildItemDAO;
+import br.inatel.lolbuilds.dao.BuildSpellDAO;
 import br.inatel.lolbuilds.dao.ChampionDAO;
 import br.inatel.lolbuilds.dao.ItemDAO;
 import br.inatel.lolbuilds.dao.SpellDAO;
 import br.inatel.lolbuilds.entity.Build;
+import br.inatel.lolbuilds.entity.BuildItem;
+import br.inatel.lolbuilds.entity.BuildSpell;
 import br.inatel.lolbuilds.entity.Champion;
 import br.inatel.lolbuilds.entity.Item;
 import br.inatel.lolbuilds.entity.Spell;
@@ -25,8 +29,9 @@ import br.inatel.lolbuilds.entity.Spell;
 public class BuildAPI {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Build> get(@QueryParam("id") Integer id, @QueryParam("name") String name) {
+	public List<BuildNode> get(@QueryParam("id") Integer id, @QueryParam("name") String name) {
 		try {
+			int userId = 0;
 			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -39,16 +44,17 @@ public class BuildAPI {
 	@Produces(MediaType.APPLICATION_JSON)
 	public APIResponse post(BuildNode newBuild) throws Exception {
 		try {
+			int userId = 0;
 			BuildDAO buildDao = new BuildDAO();
+			BuildItemDAO buildItemDao = new BuildItemDAO();
+			BuildSpellDAO buildSpellDao = new BuildSpellDAO();
+			ChampionDAO championDao = new ChampionDAO();
 			ItemDAO itemDao = new ItemDAO();
-			SpellDAO spellDao = new SpellDAO();
-			ChampionDAO championDao = new ChampionDAO();			
+			SpellDAO spellDao = new SpellDAO();		
 			
 			Build build = new Build();
 			build.setName(newBuild.getName());
-			build.setUserId(newBuild.getUserId());
-			build.setItems(newBuild.getItems());
-			build.setSpells(newBuild.getSpells());
+			build.setUserId(userId);
 			buildDao.add(build);
 			
 			int buildId = buildDao.findBuildIdByName(newBuild.getName());			
@@ -57,13 +63,21 @@ public class BuildAPI {
 			championDao.add(champion);
 			
 			for(Item item : newBuild.getItems()) {
-				item.setBuild(build);
 				itemDao.add(item);
+				
+				BuildItem buildItem = new BuildItem();				
+				buildItem.setBuildId(buildId);
+				buildItem.setItemId(item.getId());
+				buildItemDao.add(buildItem);
 			}
 			
 			for(Spell spell : newBuild.getSpells()) {
-				spell.setBuild(build);
 				spellDao.add(spell);
+				
+				BuildSpell buildSpell = new BuildSpell();				
+				buildSpell.setBuildId(buildId);
+				buildSpell.setSpellId(spell.getId());
+				buildSpellDao.add(buildSpell);
 			}
 			
 			return new APIResponse("OK","");

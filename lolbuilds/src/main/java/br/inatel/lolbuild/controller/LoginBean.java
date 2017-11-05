@@ -29,14 +29,15 @@ public class LoginBean implements Serializable {
 		String cryptoPassword = Util.convertStringToMd5(this.password);
 		user.setUsername(this.username);
 		user.setPassword(cryptoPassword);
-		boolean isValidUser = dao.login(user);
+		int userId = dao.login(user);
 		
-		if(!isValidUser) {
+		if(userId == -1) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário e/ou senha incorreto(s).", null));
 			this.username = "";
 			this.password = "";
 		} else {
 			System.out.println("Login realizado com sucesso!");
+			user.setId(userId);
 			SessionContext.getInstance().setAttribute("userLogged", user);
 			FacesContext
 				.getCurrentInstance()
