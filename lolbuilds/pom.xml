@@ -46,8 +46,13 @@
 	  		<groupId>lolbuilds-dao</groupId>
 	  		<artifactId>lolbuilds-dao</artifactId>
 	  		<version>0.0.1-SNAPSHOT</version>
-	  	</dependency>	 	
-       
+	  	</dependency>	 
+	  	
+	  	<dependency>
+	  	  	<groupId>lolbuilds-api</groupId>
+  			<artifactId>lolbuilds-api</artifactId>
+ 			<version>0.0.1-SNAPSHOT</version>	
+       </dependency>
 		<!-- Primefaces -->
 		<dependency>
 			<groupId>org.primefaces</groupId>
