@@ -1,4 +1,5 @@
 package br.inatel.lolbuild.controller.restapi;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -8,11 +9,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import br.inatel.lolbuild.util.SessionContext;
-import br.inatel.lolbuilds.api.model.APIResponse;
-import br.inatel.lolbuilds.api.model.BuildNode;
 import br.inatel.lolbuilds.dao.BuildDAO;
 import br.inatel.lolbuilds.dao.BuildItemDAO;
 import br.inatel.lolbuilds.dao.BuildSpellDAO;
@@ -25,19 +26,38 @@ import br.inatel.lolbuilds.entity.BuildSpell;
 import br.inatel.lolbuilds.entity.Champion;
 import br.inatel.lolbuilds.entity.Item;
 import br.inatel.lolbuilds.entity.Spell;
+import br.inatel.lolbuilds.entity.BuildNode;
 
 @Path("/build")
 public class BuildAPI {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<BuildNode> get(@QueryParam("id") Integer id, @QueryParam("name") String name) {
+	public Response get(@QueryParam("id") Integer id) {
 		try {
-			int userId = SessionContext.getInstance().getUserLogged().getId();
-
-			return null;
+			int userId = 0;
+			ArrayList<BuildNode> buildsNode = new ArrayList<BuildNode>();
+			
+			BuildDAO buildDao = new BuildDAO();			
+			BuildItemDAO buildItemDao = new BuildItemDAO();
+			BuildSpellDAO buildSpellDao = new BuildSpellDAO();
+			ChampionDAO championDao = new ChampionDAO();
+			
+			ArrayList<Build> builds = buildDao.list(userId);
+			for(Build build : builds) {
+				BuildNode buildNode = new BuildNode();
+				buildNode.setChampion(championDao.list(build.getId()));
+				buildNode.setItems(buildItemDao.list(build.getId()));
+				buildNode.setSpells(buildSpellDao.list(build.getId()));
+				buildNode.setName(build.getName());
+				buildsNode.add(buildNode);
+			}
+			String arg = "Deu ruim mas deu baum";
+			return Response.status(200).entity(arg).build();
+			//return Response.status(200).entity(buildsNode).build();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			String arg = "Deu ruim mas deu baum";
+			return Response.status(200).entity(arg).build();
 		}
 	}
 	
@@ -57,6 +77,7 @@ public class BuildAPI {
 			Build build = new Build();
 			build.setName(newBuild.getName());
 			build.setUserId(userId);
+			build.setType(newBuild.getType());
 			buildDao.add(build);
 			
 			int buildId = buildDao.findBuildIdByName(newBuild.getName());			

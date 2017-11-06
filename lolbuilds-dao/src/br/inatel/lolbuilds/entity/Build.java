@@ -17,6 +17,8 @@ public class Build implements Serializable {
 	private int id;
 
 	private String name;
+	
+	private String type; 
 
 	@Column(name="user_id")
 	private int userId;
@@ -46,6 +48,14 @@ public class Build implements Serializable {
 
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

@@ -27,10 +27,12 @@ public class BuildDAO {
 	
 	public void add(Build build) {
 		try {
-			String queryString = "insert into build (name) values (?)";
+			String queryString = "insert into build (name, type, used_id) values (?,?,?)";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
 			ptmt.setString(1, build.getName());
+			ptmt.setString(1, build.getType());
+			ptmt.setInt(1, build.getUserId());
 			ptmt.executeUpdate();
 			System.out.println("Build adicionado com sucesso!");
 		} catch (SQLException e) {
@@ -174,15 +176,26 @@ public class BuildDAO {
 
 	}
 
-	public void list() {
+	public ArrayList<Build> list(int userId) {
 		try {
-			String queryString = "SELECT * FROM build";
+			String queryString = "SELECT * FROM build WHERE user_id=?";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
+			ptmt.setInt(1, userId);
 			resultSet = ptmt.executeQuery();
-			System.out.println(resultSet);
+			ArrayList<Build> builds = new ArrayList<Build>();
+			while (resultSet.next()) {
+				Build build = new Build();
+				build.setId(resultSet.getInt("id"));
+				build.setUserId(resultSet.getInt("user_id"));
+				build.setName(resultSet.getString("name"));
+				build.setType(resultSet.getString("type"));
+				builds.add(build);
+		    }
+			return builds;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return null;
 		} finally {
 			try {
 				if (resultSet != null)

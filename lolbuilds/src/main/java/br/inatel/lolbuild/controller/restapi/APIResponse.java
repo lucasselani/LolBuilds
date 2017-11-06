@@ -1,4 +1,4 @@
-package model;
+package br.inatel.lolbuild.controller.restapi;
 
 import java.io.Serializable;
 

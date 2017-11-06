@@ -1,15 +1,20 @@
-package model;
+package br.inatel.lolbuilds.entity;
 
 import java.util.ArrayList;
+
+import javax.xml.bind.annotation.XmlRootElement;
+
 import br.inatel.lolbuilds.entity.Champion;
 import br.inatel.lolbuilds.entity.Item;
 import br.inatel.lolbuilds.entity.Spell;
 
+@XmlRootElement
 public class BuildNode {
 	private ArrayList<Item> items;
 	private ArrayList<Spell> spells;
 	private Champion champion;
 	private String name;
+	private String type;
 	
 	public BuildNode() {}	
 	
@@ -44,6 +49,16 @@ public class BuildNode {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+
+	public String getType() {
+		return type;
+	}
+
+
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 }

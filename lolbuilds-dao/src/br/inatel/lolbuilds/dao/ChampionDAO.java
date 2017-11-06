@@ -147,15 +147,25 @@ public class ChampionDAO {
 
 	}
 
-	public void list() {
+	public Champion list(int buildId) {
 		try {
-			String queryString = "SELECT * FROM champion";
+			String queryString = "SELECT * FROM champion WHERE build_id=?";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
+			ptmt.setInt(1, buildId);
 			resultSet = ptmt.executeQuery();
-			System.out.println(resultSet);
+			Champion champion = new Champion();
+			while (resultSet.next()) {				
+				champion.setBuildId(resultSet.getInt("build_id"));
+				champion.setName(resultSet.getString("name"));
+				champion.setImage(resultSet.getString("image"));
+				champion.setId(resultSet.getInt("id"));
+				
+		    }
+			return champion;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return null;
 		} finally {
 			try {
 				if (resultSet != null)
@@ -169,7 +179,6 @@ public class ChampionDAO {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 		}
 	}
 }
