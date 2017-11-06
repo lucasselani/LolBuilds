@@ -1,4 +1,4 @@
-package br.inatel.lolbuild.controller;
+package br.inatel.lolbuild.controller.bean;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;

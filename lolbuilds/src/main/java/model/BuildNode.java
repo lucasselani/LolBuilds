@@ -1,4 +1,4 @@
-package br.inatel.lolbuilds.api.model;
+package model;
 
 import java.util.ArrayList;
 import br.inatel.lolbuilds.entity.Champion;

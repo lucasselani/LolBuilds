@@ -1,4 +1,4 @@
-package br.inatel.lolbuild.controller;
+package br.inatel.lolbuild.controller.bean;
 
 import java.io.Serializable;
 

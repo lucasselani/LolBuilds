@@ -1,4 +1,4 @@
-package br.inatel.lolbuilds.api.rest;
+package br.inatel.lolbuild.controller.restapi;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -10,6 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import br.inatel.lolbuild.util.SessionContext;
 import br.inatel.lolbuilds.api.model.APIResponse;
 import br.inatel.lolbuilds.api.model.BuildNode;
 import br.inatel.lolbuilds.dao.BuildDAO;
@@ -31,7 +32,8 @@ public class BuildAPI {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<BuildNode> get(@QueryParam("id") Integer id, @QueryParam("name") String name) {
 		try {
-			int userId = 0;
+			int userId = SessionContext.getInstance().getUserLogged().getId();
+
 			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -44,7 +46,7 @@ public class BuildAPI {
 	@Produces(MediaType.APPLICATION_JSON)
 	public APIResponse post(BuildNode newBuild) throws Exception {
 		try {
-			int userId = 0;
+			int userId = SessionContext.getInstance().getUserLogged().getId();
 			BuildDAO buildDao = new BuildDAO();
 			BuildItemDAO buildItemDao = new BuildItemDAO();
 			BuildSpellDAO buildSpellDao = new BuildSpellDAO();
