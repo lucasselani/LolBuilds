@@ -1,6 +1,8 @@
 package br.inatel.lolbuild.controller.restapi;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -8,6 +10,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -24,15 +27,21 @@ import br.inatel.lolbuilds.entity.BuildSpell;
 import br.inatel.lolbuilds.entity.Champion;
 import br.inatel.lolbuilds.entity.Item;
 import br.inatel.lolbuilds.entity.Spell;
+import br.inatel.lolbuilds.entity.User;
 import br.inatel.lolbuilds.entity.BuildNode;
 
 @Path("/build")
 public class BuildAPI {
+    @Context
+    private HttpServletRequest request;
+    
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public ArrayList<BuildNode> get(@QueryParam("id") Integer id) {
 		try {
-			int userId = 0;
+			HttpSession session = request.getSession();
+			User user = (User) session.getAttribute("userLogged");
+			int userId = user.getId();
 			ArrayList<BuildNode> buildsNode = new ArrayList<BuildNode>();
 			
 			BuildDAO buildDao = new BuildDAO();			
