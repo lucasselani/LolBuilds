@@ -7,16 +7,9 @@ import java.util.Collection;
 import javax.persistence.*;
 
 
-/**
- * The persistent class for the item database table.
- * 
- */
-@Entity
-@NamedQuery(name="Item.findAll", query="SELECT i FROM Item i")
 public class Item implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	@Id
 	private int id;
 
 	private String image;

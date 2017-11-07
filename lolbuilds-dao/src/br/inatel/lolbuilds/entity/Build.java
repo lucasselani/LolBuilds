@@ -8,19 +8,15 @@ import javax.persistence.*;
  * The persistent class for the build database table.
  * 
  */
-@Entity
-@NamedQuery(name="Build.findAll", query="SELECT b FROM Build b")
 public class Build implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
 	private int id;
 
 	private String name;
 	
 	private String type; 
 
-	@Column(name="user_id")
 	private int userId;
 	
 	public Build() {

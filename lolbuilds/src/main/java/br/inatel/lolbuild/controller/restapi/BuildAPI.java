@@ -49,12 +49,9 @@ public class BuildAPI {
 				buildNode.setName(build.getName());
 				buildsNode.add(buildNode);
 			}
-			String arg = "Deu ruim mas deu baum";
-			//return Response.status(200).entity(arg).build();
 			return buildsNode;
 		} catch (Exception e) {
 			e.printStackTrace();
-			String arg = "Deu ruim mas deu baum";
 			return null;
 		}
 	}

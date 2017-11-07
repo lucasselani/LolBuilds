@@ -9,12 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 
-@Entity
-@NamedQuery(name="Spell.findAll", query="SELECT s FROM Spell s")
 public class Spell implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	@Id
 	private int id;
 
 	private String image;
