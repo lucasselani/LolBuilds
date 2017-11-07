@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import br.inatel.lolbuilds.entity.BuildItem;
-import br.inatel.lolbuilds.entity.BuildSpell;
-import br.inatel.lolbuilds.entity.Champion;
 import br.inatel.lolbuilds.entity.Item;
 
 public class BuildItemDAO {

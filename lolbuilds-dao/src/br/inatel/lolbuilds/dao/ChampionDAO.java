@@ -5,11 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
-import br.inatel.lolbuilds.entity.Build;
 import br.inatel.lolbuilds.entity.Champion;
-import br.inatel.lolbuilds.entity.User;
 
 public class ChampionDAO {
 	Connection connection = null;

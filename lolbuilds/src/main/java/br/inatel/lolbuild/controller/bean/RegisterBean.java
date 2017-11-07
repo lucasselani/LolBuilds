@@ -11,9 +11,7 @@ import br.inatel.lolbuilds.entity.User;
 @ManagedBean
 @ViewScoped
 public class RegisterBean {
-	private static final long serialVersionUID = 3973801993975443027L;
-
-	private int id;
+	
 	private String username;
 	private String password;
 	private String repeatPassword;

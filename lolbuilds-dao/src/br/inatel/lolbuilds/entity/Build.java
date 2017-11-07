@@ -1,7 +1,6 @@
 package br.inatel.lolbuilds.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
 
 /**

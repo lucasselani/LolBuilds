@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DAO {
 	String driverClassName = "com.mysql.jdbc.Driver";
-	String connectionUrl = "jdbc:mysql://localhost:3306/loldb";
+	String connectionUrl = "jdbc:mysql://localhost:3306/loldb?autoReconnect=true&useSSL=false";
 	String dbUser = "root";
 	String dbPwd = "root";
 

@@ -12,7 +12,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import br.inatel.lolbuild.util.SessionContext;
 import br.inatel.lolbuilds.dao.BuildDAO;
@@ -23,12 +22,12 @@ import br.inatel.lolbuilds.dao.ItemDAO;
 import br.inatel.lolbuilds.dao.SpellDAO;
 import br.inatel.lolbuilds.entity.Build;
 import br.inatel.lolbuilds.entity.BuildItem;
+import br.inatel.lolbuilds.entity.BuildNode;
 import br.inatel.lolbuilds.entity.BuildSpell;
 import br.inatel.lolbuilds.entity.Champion;
 import br.inatel.lolbuilds.entity.Item;
 import br.inatel.lolbuilds.entity.Spell;
 import br.inatel.lolbuilds.entity.User;
-import br.inatel.lolbuilds.entity.BuildNode;
 
 @Path("/build")
 public class BuildAPI {

@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import br.inatel.lolbuilds.entity.Build;
-import br.inatel.lolbuilds.entity.Champion;
 
 public class BuildDAO {
 	Connection connection = null;
