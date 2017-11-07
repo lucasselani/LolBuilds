@@ -1,6 +1,5 @@
 package br.inatel.lolbuild.controller.restapi;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -9,7 +8,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -32,7 +30,7 @@ import br.inatel.lolbuilds.entity.BuildNode;
 public class BuildAPI {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response get(@QueryParam("id") Integer id) {
+	public ArrayList<BuildNode> get(@QueryParam("id") Integer id) {
 		try {
 			int userId = 0;
 			ArrayList<BuildNode> buildsNode = new ArrayList<BuildNode>();
@@ -52,12 +50,12 @@ public class BuildAPI {
 				buildsNode.add(buildNode);
 			}
 			String arg = "Deu ruim mas deu baum";
-			return Response.status(200).entity(arg).build();
-			//return Response.status(200).entity(buildsNode).build();
+			//return Response.status(200).entity(arg).build();
+			return buildsNode;
 		} catch (Exception e) {
 			e.printStackTrace();
 			String arg = "Deu ruim mas deu baum";
-			return Response.status(200).entity(arg).build();
+			return null;
 		}
 	}
 	

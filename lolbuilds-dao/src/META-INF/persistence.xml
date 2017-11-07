@@ -4,6 +4,9 @@
 		<class>br.inatel.lolbuilds.entity.Build</class>
 		<class>br.inatel.lolbuilds.entity.Champion</class>
 		<class>br.inatel.lolbuilds.entity.Item</class>
+		<class>br.inatel.lolbuilds.entity.BuildItem</class>
+		<class>br.inatel.lolbuilds.entity.BuildSpell</class>
+		<class>br.inatel.lolbuilds.entity.Spell</class>
 		<class>br.inatel.lolbuilds.entity.User</class>
 	</persistence-unit>
 </persistence>
