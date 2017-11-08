@@ -3,6 +3,7 @@ var app = angular.module("myApp", ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 app.controller("Controller", function($scope, $http, $timeout, $filter) {
 	
 	$scope.init = function() {
+		$scope.type_data = [{name:'ATIRADOR'}, {name:'MEIO'}, {name:'SELVA'}, {name:'SUPORTE'}, {name:'TOPO'}];
 		$scope.searchItems();
 		$scope.searchSpells();
 		$scope.searchChampions();
