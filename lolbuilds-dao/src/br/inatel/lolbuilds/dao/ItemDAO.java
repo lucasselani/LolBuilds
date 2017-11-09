@@ -1,10 +1,13 @@
 package br.inatel.lolbuilds.dao;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import br.inatel.lolbuilds.entity.Item;
 
@@ -25,8 +28,8 @@ public class ItemDAO {
 	
 	public void add(Item item) {
 		try {
-			Item fetchedItem = findItemById(item.getId());
-			if(fetchedItem == null) {
+			int index = findItemIdByName(item.getName());
+			if(index == -1) {
 				String queryString = "insert into item (name,image) values (?,?)";
 				connection = getConnection();
 				ptmt = connection.prepareStatement(queryString);
@@ -34,9 +37,7 @@ public class ItemDAO {
 				ptmt.setString(2, item.getImage());
 				ptmt.executeUpdate();
 				System.out.println("Item adicionado com sucesso!");
-			} else {
-				update(item);
-			}
+			} 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -53,6 +54,37 @@ public class ItemDAO {
 
 		}
 
+	}
+	
+	public int findItemIdByName(String name) {
+		try {
+			String queryString = "SELECT id FROM item WHERE name=?";
+			connection = getConnection();
+			ptmt = connection.prepareStatement(queryString);
+			ptmt.setString(1, name);
+			resultSet = ptmt.executeQuery();
+			
+			while (resultSet.next()) {
+				return resultSet.getInt("id");
+		    }
+			return -1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		} finally {
+			try {
+				if (resultSet != null)
+					resultSet.close();
+				if (ptmt != null)
+					ptmt.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
+		}		
 	}
 	
 	public Item findItemById(int id) {
@@ -89,14 +121,14 @@ public class ItemDAO {
 			}	
 		}		
 	}	
-
-	public void update(Item item) {
+	
+		public void update(Item item) {
 		try {
 			String sql = "update item set";
 			connection = getConnection();
 			Statement stm = connection.createStatement();
 			
-			sql += " name='" + item.getName() + "'";
+			sql += " name='" + item.getName() + "',";
 			sql += " image='" + item.getImage() + "'";	
 			sql += " WHERE id=" + item.getId() + ";";
 
