@@ -15,7 +15,7 @@
     padding: 15px; 
 	width: 400px;
 	height: 370px;
-    overflow: overlay;
+    overflow: auto;
     background: #222;
 	margin-right: 2em;
 }
@@ -149,6 +149,55 @@ body.md-default-theme, body, html.md-default-theme, html {
 }
 
 .dropdown-menu {
-    max-height: 400px !important;
+    max-height: 200px !important;
     overflow: hidden !important;	
+}
+
+.champion_select {
+	margin-left: 8px;
+	margin-top: -30px;
+}
+
+.name_build {
+	display:flex;
+	margin-left: 8px;
+	margin-top: 2px;
+}
+
+.champion_select input[type='text'], .name_build input[type='text'] {
+	background-color: rgb(30, 32, 33) !important;
+	padding-left:15px;
+	min-height: 35px !important;
+	min-width: 180px !important;
+	border-style: hidden;
+	border-radius: 2;
+	color: #eee;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.champion_select input[type='button'], .name_build input[type='button'] {
+	background-color: rgb(30, 32, 33) !important;
+	padding-left:15px;
+	min-height: 35px !important;
+	min-width: 180px !important;
+	border-style: hidden;
+	border-radius: 2;
+	color: #eee;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.champion_select input[type='button']:hover, .name_build input[type='button']:hover {
+	background-color: rgb(30, 32, 33) !important;;
+	color: #eee;
+}
+
+[uib-typeahead-popup].dropdown-menu {
+	background-color: #1e2021 !important;
+	min-width: 180px !important;
+}
+
+.dropdown-menu span {
+	color: #fff !important;
 }
