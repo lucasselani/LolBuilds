@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
+import br.inatel.lolbuilds.entity.Build;
 import br.inatel.lolbuilds.entity.User;
 
 public class UserDAO {
@@ -180,15 +182,24 @@ public class UserDAO {
 
 	}
 
-	public void list() {
+	public ArrayList<User> list() {
 		try {
 			String queryString = "SELECT * FROM user";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
 			resultSet = ptmt.executeQuery();
-			System.out.println(resultSet);
+			ArrayList<User> users = new ArrayList<User>();
+			while (resultSet.next()) {
+				User user = new User();
+				user.setId(resultSet.getInt("id"));
+				user.setUsername(resultSet.getString("username"));
+				user.setPassword(resultSet.getString("password"));
+				users.add(user);
+		    }
+			return users;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return null;
 		} finally {
 			try {
 				if (resultSet != null)

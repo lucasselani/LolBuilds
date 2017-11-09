@@ -9,6 +9,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -41,6 +42,19 @@ public class BuildAPI {
 	
     @Context
     private HttpServletRequest request;
+    
+	@GET
+	@Path("/allbuilds")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<BuildNode> getAllBuilds() {
+		try {		
+			ArrayList<Build> builds = buildDao.getAllBuilds();
+			return parseBuild(builds);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
     
 	@GET
 	@Path("/ownbuild")
@@ -92,7 +106,7 @@ public class BuildAPI {
 		try {
 			HttpSession session = request.getSession();
 			User user = (User) session.getAttribute("userLogged");
-			int userId = user.getId();		
+			int userId = 20;	
 	
 			Champion champion = newBuild.getChampion();
 			championDao.add(champion);
@@ -131,12 +145,12 @@ public class BuildAPI {
 	}
 
 	@DELETE
+	@Path("/delete/{name}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public APIResponse delete(Build build) throws Exception {
+	public APIResponse delete(@PathParam("name") String name) throws Exception {
 		try {
-			BuildDAO dao = new BuildDAO();
-			dao.delete(build.getId());
+			buildDao.delete(name);
 			return new APIResponse("OK","");
 		} catch (Exception e) {
 			e.printStackTrace();

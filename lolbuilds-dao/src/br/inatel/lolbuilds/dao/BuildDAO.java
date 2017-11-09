@@ -74,9 +74,44 @@ public class BuildDAO {
 			
 			while (resultSet.next()) {
 				int quantity = resultSet.getInt(1);
-				return name + " (" + quantity + ")";
+				if(quantity > 0) return name + " (" + quantity + ")";
 		    }
 			return name;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				if (resultSet != null)
+					resultSet.close();
+				if (ptmt != null)
+					ptmt.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
+		}		
+	}
+	
+	public ArrayList<Build> getAllBuilds() {
+		try {
+			String queryString = "SELECT * FROM build";
+			connection = getConnection();
+			ptmt = connection.prepareStatement(queryString);
+			resultSet = ptmt.executeQuery();
+			ArrayList<Build> builds = new ArrayList<Build>();
+			while (resultSet.next()) {
+				Build build = new Build();
+				build.setId(resultSet.getInt("id"));
+				build.setUserId(resultSet.getInt("user_id"));
+				build.setName(resultSet.getString("name"));
+				build.setChampionId(resultSet.getInt("champion_id"));
+				builds.add(build);
+		    }
+			return builds;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -193,13 +228,13 @@ public class BuildDAO {
 		}
 	}
 
-	public void delete(int id) {
+	public void delete(String name) {
 
 		try {
-			String queryString = "DELETE FROM build WHERE id=?";
+			String queryString = "DELETE FROM build WHERE name=?";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
-			ptmt.setInt(1, id);
+			ptmt.setString(1, name);
 			ptmt.executeUpdate();
 			System.out.println("Data deleted Successfully");
 		} catch (SQLException e) {
