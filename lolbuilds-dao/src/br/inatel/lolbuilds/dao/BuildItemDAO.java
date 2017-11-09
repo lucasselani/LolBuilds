@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import br.inatel.lolbuilds.entity.BuildItem;
 import br.inatel.lolbuilds.entity.Item;
@@ -32,7 +33,7 @@ public class BuildItemDAO {
 			ptmt.setInt(1, buildItem.getItemId());
 			ptmt.setInt(2, buildItem.getBuildId());
 			ptmt.executeUpdate();
-			System.out.println("BuildSpell adicionado com sucesso!");
+			System.out.println("BuildItem adicionado com sucesso!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -51,20 +52,21 @@ public class BuildItemDAO {
 	
 	public ArrayList<Item> list(int buildId) {
 		try {
-			String queryString = "SELECT * FROM item WHERE id IN ";
-			String inString = "(SELECT item_id FROM build_has_item WHERE build_id=?)";
+			String queryString = "SELECT item.name, item.image, item.id FROM item "
+					+ "JOIN build_has_item ON item.id = build_has_item.item_id WHERE build_id=?";
+			//String inString = "(SELECT item_id FROM build_has_item WHERE build_id=?)";
 			connection = getConnection();
-			ptmt = connection.prepareStatement(queryString+inString);
+			ptmt = connection.prepareStatement(queryString);
 			ptmt.setInt(1, buildId);
 			resultSet = ptmt.executeQuery();
-			ArrayList<Item> items = new ArrayList<Item>();			
+			ArrayList<Item> items = new ArrayList<Item>();;
 			while (resultSet.next()) {		
 				Item item = new Item();
-				item.setId(resultSet.getInt("id"));
-				item.setImage(resultSet.getString("image"));
 				item.setName(resultSet.getString("name"));
+				item.setImage(resultSet.getString("image"));
+				item.setId(resultSet.getInt("id"));
 				items.add(item);
-		    }
+		    }			
 			return items;
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -18,6 +18,8 @@ public class Build implements Serializable {
 
 	private int userId;
 	
+	private int championId;
+	
 	public Build() {
 	}	
 
@@ -43,6 +45,14 @@ public class Build implements Serializable {
 
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+	
+	public int getChampionId() {
+		return this.championId;
+	}
+
+	public void setChampionId(int championId) {
+		this.championId = championId;
 	}
 
 	public String getType() {

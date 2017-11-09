@@ -24,18 +24,28 @@ public class BuildDAO {
 		return conn;
 	}	
 	
-	public void add(Build build) {
+	public int add(Build build) {
 		try {
-			String queryString = "insert into build (name, type, used_id) values (?,?,?)";
+			String queryString = "insert into build (name, type, user_id, champion_id) values (?,?,?,?)";
 			connection = getConnection();
-			ptmt = connection.prepareStatement(queryString);
+			ptmt = connection.prepareStatement(queryString, Statement.RETURN_GENERATED_KEYS);
 			ptmt.setString(1, build.getName());
-			ptmt.setString(1, build.getType());
-			ptmt.setInt(1, build.getUserId());
-			ptmt.executeUpdate();
-			System.out.println("Build adicionado com sucesso!");
+			ptmt.setString(2, build.getType());
+			ptmt.setInt(3, build.getUserId());
+			ptmt.setInt(4, build.getChampionId());
+			int affectedRows = ptmt.executeUpdate();
+			
+			if(affectedRows != 0) {
+				ResultSet generatedKeys = ptmt.getGeneratedKeys();
+		        if (generatedKeys.next()) {
+		            System.out.println("Build adicionado com sucesso!");
+		            return generatedKeys.getInt(1);
+		        }
+			}
+			return -1;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return -1;
 		} finally {
 			try {
 				if (ptmt != null)
@@ -50,6 +60,40 @@ public class BuildDAO {
 
 		}
 
+	}
+	
+	public String defineBuildName(String name) {
+		try {
+			String queryString = "SELECT COUNT(*) FROM build WHERE name LIKE ? OR name LIKE ? OR name LIKE ?";
+			connection = getConnection();
+			ptmt = connection.prepareStatement(queryString);
+			ptmt.setString(1, name);
+			ptmt.setString(2, name + " (_)");
+			ptmt.setString(3, name + " (__)");
+			resultSet = ptmt.executeQuery();
+			
+			while (resultSet.next()) {
+				int quantity = resultSet.getInt(1);
+				return name + " (" + quantity + ")";
+		    }
+			return name;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				if (resultSet != null)
+					resultSet.close();
+				if (ptmt != null)
+					ptmt.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
+		}		
 	}
 	
 	public int findBuildIdByName(String name) {
@@ -97,6 +141,7 @@ public class BuildDAO {
 				build.setId(resultSet.getInt("id"));
 				build.setUserId(resultSet.getInt("user_id"));
 				build.setName(resultSet.getString("name"));
+				build.setChampionId(resultSet.getInt("champion_id"));
 				builds.add(build);
 		    }
 			return builds;
@@ -175,7 +220,7 @@ public class BuildDAO {
 
 	}
 
-	public ArrayList<Build> list(int userId) {
+	public ArrayList<Build> getBuildsByUserId(int userId) {
 		try {
 			String queryString = "SELECT * FROM build WHERE user_id=?";
 			connection = getConnection();
@@ -189,6 +234,7 @@ public class BuildDAO {
 				build.setUserId(resultSet.getInt("user_id"));
 				build.setName(resultSet.getString("name"));
 				build.setType(resultSet.getString("type"));
+				build.setChampionId(resultSet.getInt("champion_id"));
 				builds.add(build);
 		    }
 			return builds;
@@ -209,6 +255,81 @@ public class BuildDAO {
 				e.printStackTrace();
 			}
 
+		}
+	}
+	
+	public ArrayList<Build> getBuildsByChampion(String championName) {
+		try {
+			String queryString = "SELECT * FROM build WHERE champion_id IN ";
+			String inString = "(SELECT id FROM champion WHERE name=?)";
+			connection = getConnection();
+			ptmt = connection.prepareStatement(queryString+inString);
+			ptmt.setString(1, championName);
+			resultSet = ptmt.executeQuery();
+			ArrayList<Build> builds = new ArrayList<Build>();
+			while (resultSet.next()) {
+				Build build = new Build();
+				build.setId(resultSet.getInt("id"));
+				build.setUserId(resultSet.getInt("user_id"));
+				build.setName(resultSet.getString("name"));
+				build.setType(resultSet.getString("type"));
+				build.setChampionId(resultSet.getInt("champion_id"));
+				builds.add(build);
+		    }
+			return builds;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				if (resultSet != null)
+					resultSet.close();
+				if (ptmt != null)
+					ptmt.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public ArrayList<Build> getBuildsByType(String championType) {
+		try {
+			String queryString = "SELECT * FROM build WHERE type=?";
+			connection = getConnection();
+			ptmt = connection.prepareStatement(queryString);
+			ptmt.setString(1, championType);
+			resultSet = ptmt.executeQuery();
+			ArrayList<Build> builds = new ArrayList<Build>();
+			while (resultSet.next()) {
+				Build build = new Build();
+				build.setId(resultSet.getInt("id"));
+				build.setUserId(resultSet.getInt("user_id"));
+				build.setName(resultSet.getString("name"));
+				build.setType(resultSet.getString("type"));
+				build.setChampionId(resultSet.getInt("champion_id"));
+				builds.add(build);
+		    }
+			return builds;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				if (resultSet != null)
+					resultSet.close();
+				if (ptmt != null)
+					ptmt.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

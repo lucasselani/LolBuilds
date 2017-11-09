@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import br.inatel.lolbuilds.entity.Champion;
+import br.inatel.lolbuilds.entity.Item;
 
 public class ChampionDAO {
 	Connection connection = null;
@@ -23,16 +24,18 @@ public class ChampionDAO {
 		return conn;
 	}	
 	
-	public void add(Champion champion) {
+	public void add(Champion champion) {		
 		try {
-			String queryString = "insert into champion (name,image,build_id) values (?,?,?)";
-			connection = getConnection();
-			ptmt = connection.prepareStatement(queryString);
-			ptmt.setString(1, champion.getName());
-			ptmt.setString(2, champion.getImage());
-			ptmt.setInt(3, champion.getBuildId());
-			ptmt.executeUpdate();
-			System.out.println("Champion adicionado com sucesso!");
+			int index = findChampionIdByName(champion.getName());
+			if(index == -1) {
+				String queryString = "insert into champion (name,image) values (?,?)";
+				connection = getConnection();
+				ptmt = connection.prepareStatement(queryString);
+				ptmt.setString(1, champion.getName());
+				ptmt.setString(2, champion.getImage());
+				ptmt.executeUpdate();
+				System.out.println("Champion adicionado com sucesso!");
+			} 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -46,17 +49,46 @@ public class ChampionDAO {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 		}
-
 	}
 	
-	public Champion findChampionByName(String name) {
+	public int findChampionIdByName(String name) {
 		try {
-			String queryString = "SELECT * FROM champion WHERE name=?";
+			String queryString = "SELECT id FROM champion WHERE name=?";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString);
 			ptmt.setString(1, name);
+			resultSet = ptmt.executeQuery();
+			
+			while (resultSet.next()) {
+				return resultSet.getInt("id");
+		    }
+			return -1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		} finally {
+			try {
+				if (resultSet != null)
+					resultSet.close();
+				if (ptmt != null)
+					ptmt.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
+		}		
+	}
+	
+	public Champion findChampionById(int id) {
+		try {
+			String queryString = "SELECT * FROM champion WHERE id=?";
+			connection = getConnection();
+			ptmt = connection.prepareStatement(queryString);
+			ptmt.setInt(1, id);
 			resultSet = ptmt.executeQuery();			
 
 			while (resultSet.next()) {
@@ -92,13 +124,12 @@ public class ChampionDAO {
 			connection = getConnection();
 			Statement stm = connection.createStatement();
 			
-			if(champion.getName() != null) {
-				sql += " name='" + champion.getName() + "'";
-			}						
+			sql += " name='" + champion.getName() + "',";
+			sql += " image='" + champion.getImage() + "'";	
 			sql += " WHERE id=" + champion.getId() + ";";
 
 			stm.execute(sql);
-			System.out.println("Build atualizada com sucesso!");
+			System.out.println("Champion atualizada com sucesso!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -146,18 +177,17 @@ public class ChampionDAO {
 
 	public Champion list(int buildId) {
 		try {
-			String queryString = "SELECT * FROM champion WHERE build_id=?";
+			String queryString = "SELECT * FROM champion WHERE id IN ";
+			String inString = "(SELECT champion_id FROM build WHERE id=?)";
 			connection = getConnection();
-			ptmt = connection.prepareStatement(queryString);
+			ptmt = connection.prepareStatement(queryString+inString);
 			ptmt.setInt(1, buildId);
 			resultSet = ptmt.executeQuery();
 			Champion champion = new Champion();
 			while (resultSet.next()) {				
-				champion.setBuildId(resultSet.getInt("build_id"));
 				champion.setName(resultSet.getString("name"));
 				champion.setImage(resultSet.getString("image"));
-				champion.setId(resultSet.getInt("id"));
-				
+				champion.setId(resultSet.getInt("id"));				
 		    }
 			return champion;
 		} catch (SQLException e) {

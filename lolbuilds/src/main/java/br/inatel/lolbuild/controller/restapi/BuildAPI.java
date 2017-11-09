@@ -1,5 +1,6 @@
 package br.inatel.lolbuild.controller.restapi;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -31,33 +32,52 @@ import br.inatel.lolbuilds.entity.User;
 
 @Path("/build")
 public class BuildAPI {
+	private BuildDAO buildDao = new BuildDAO();			
+	private BuildItemDAO buildItemDao = new BuildItemDAO();
+	private BuildSpellDAO buildSpellDao = new BuildSpellDAO();
+	private ChampionDAO championDao = new ChampionDAO();
+	private ItemDAO itemDao = new ItemDAO();
+	private SpellDAO spellDao = new SpellDAO();		
+	
     @Context
     private HttpServletRequest request;
     
 	@GET
+	@Path("/ownbuild")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<BuildNode> get(@QueryParam("id") Integer id) {
+	public ArrayList<BuildNode> getOwnBuilds() {
 		try {
 			HttpSession session = request.getSession();
 			User user = (User) session.getAttribute("userLogged");
-			int userId = user.getId();
-			ArrayList<BuildNode> buildsNode = new ArrayList<BuildNode>();
-			
-			BuildDAO buildDao = new BuildDAO();			
-			BuildItemDAO buildItemDao = new BuildItemDAO();
-			BuildSpellDAO buildSpellDao = new BuildSpellDAO();
-			ChampionDAO championDao = new ChampionDAO();
-			
-			ArrayList<Build> builds = buildDao.list(userId);
-			for(Build build : builds) {
-				BuildNode buildNode = new BuildNode();
-				buildNode.setChampion(championDao.list(build.getId()));
-				buildNode.setItems(buildItemDao.list(build.getId()));
-				buildNode.setSpells(buildSpellDao.list(build.getId()));
-				buildNode.setName(build.getName());
-				buildsNode.add(buildNode);
-			}
-			return buildsNode;
+			int userId = user.getId();			
+			ArrayList<Build> builds = buildDao.getBuildsByUserId(userId);
+			return parseBuild(builds);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@GET
+	@Path("/champion")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<BuildNode> getBuildByChampion(@QueryParam("name") String name) {
+		try {		
+			ArrayList<Build> builds = buildDao.getBuildsByChampion(name);			
+			return parseBuild(builds);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@GET
+	@Path("/type")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<BuildNode> getBuildByType(@QueryParam("name") String type) {
+		try {		
+			ArrayList<Build> builds = buildDao.getBuildsByType(type);			
+			return parseBuild(builds);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -65,44 +85,41 @@ public class BuildAPI {
 	}
 	
 	@POST
+	@Path("/newbuild")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public APIResponse post(BuildNode newBuild) throws Exception {
 		try {
-			int userId = SessionContext.getInstance().getUserLogged().getId();
-			BuildDAO buildDao = new BuildDAO();
-			BuildItemDAO buildItemDao = new BuildItemDAO();
-			BuildSpellDAO buildSpellDao = new BuildSpellDAO();
-			ChampionDAO championDao = new ChampionDAO();
-			ItemDAO itemDao = new ItemDAO();
-			SpellDAO spellDao = new SpellDAO();		
-			
-			Build build = new Build();
-			build.setName(newBuild.getName());
-			build.setUserId(userId);
-			build.setType(newBuild.getType());
-			buildDao.add(build);
-			
-			int buildId = buildDao.findBuildIdByName(newBuild.getName());			
+			HttpSession session = request.getSession();
+			User user = (User) session.getAttribute("userLogged");
+			int userId = user.getId();		
+	
 			Champion champion = newBuild.getChampion();
-			champion.setBuildId(buildId);
 			championDao.add(champion);
 			
+			Build build = new Build();
+			String buildName = buildDao.defineBuildName(newBuild.getName());
+			build.setName(buildName);
+			build.setUserId(userId);
+			build.setType(newBuild.getType());
+			build.setChampionId(championDao.findChampionIdByName(champion.getName()));
+			int buildId = buildDao.add(build);
+			
 			for(Item item : newBuild.getItems()) {
-				itemDao.add(item);
-				
+				itemDao.add(item);				
+				int itemId = itemDao.findItemIdByName(item.getName());
 				BuildItem buildItem = new BuildItem();				
 				buildItem.setBuildId(buildId);
-				buildItem.setItemId(item.getId());
+				buildItem.setItemId(itemId);
 				buildItemDao.add(buildItem);
 			}
 			
 			for(Spell spell : newBuild.getSpells()) {
-				spellDao.add(spell);
-				
+				spellDao.add(spell);	
+				int spellId = spellDao.findSpellIdByName(spell.getName());
 				BuildSpell buildSpell = new BuildSpell();				
 				buildSpell.setBuildId(buildId);
-				buildSpell.setSpellId(spell.getId());
+				buildSpell.setSpellId(spellId);
 				buildSpellDao.add(buildSpell);
 			}
 			
@@ -125,5 +142,19 @@ public class BuildAPI {
 			e.printStackTrace();
 			return new APIResponse("NOK",e.getMessage());
 		}
+	}
+	
+	private ArrayList<BuildNode> parseBuild(ArrayList<Build> builds) {
+		ArrayList<BuildNode> buildsNode = new ArrayList<BuildNode>();
+		for(Build build : builds) {
+			BuildNode buildNode = new BuildNode();
+			buildNode.setChampion(championDao.list(build.getId()));			
+			buildNode.setItems(buildItemDao.list(build.getId()));			
+			buildNode.setSpells(buildSpellDao.list(build.getId()));
+			buildNode.setName(build.getName());
+			buildNode.setType(build.getType());
+			buildsNode.add(buildNode);
+		}
+		return buildsNode;
 	}
 }
