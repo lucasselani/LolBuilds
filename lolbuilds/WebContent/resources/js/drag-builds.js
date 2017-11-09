@@ -23,7 +23,7 @@ app.controller("Controller", function($scope, $http, $timeout, $filter) {
 					} else {
 						$scope.champions_data.push({image: arr[i].image.full, name: arr[i].name});
 					}
-				} console.log($scope.champions_data);
+				} //console.log($scope.champions_data);
         	}, function myError(response) {
 	   			console.log(response);
    		});			    
@@ -51,17 +51,61 @@ app.controller("Controller", function($scope, $http, $timeout, $filter) {
         	}, function myError(response) {
 	   			console.log(response);
    		});			    
-    };    
-
-    $scope.handleDrop = function(item, bin) {
-    	if( item.substring(0, 3) == 'spl' ) {
-    		if ( bin.substring(0, 3) == 'spl' ) {
-                console.log('Item ' + item + ' has been dropped into ' + bin);
-    		}
-    	} else if ( item.substring(0, 3) == 'itm' ) {
-    		
-    	}
+    };
+    
+    $scope.getChildrenNodes = function() {
+		$scope.user_spells = [];
+		$scope.user_items = [];
+	    var item;
+	    
+	    for (var i = 1; i <= 7; i++) {
+	    	item = document.getElementById("itm_rcp_"+i).childNodes;
+	    	(item.length > 0) ? $scope.user_items.push({name: item[0].alt, image: item[0].id.split("_")[1]}) : item = null;
+	    } //console.log($scope.user_items);
+	    
+	    for (var i = 1; i <= 2; i++) {
+	    	item = document.getElementById("spl_rcp_"+i).childNodes;
+	    	(item.length > 0) ? $scope.user_spells.push({name: item[0].alt, image: item[0].id.split("_")[1]}) : item = null;
+	    } //console.log($scope.user_spells);
     }
+    
+    $scope.enviarBuild = function() {
+    	$scope.getChildrenNodes();
+    	
+    	if ( $scope.user_items.length < 7 || $scope.user_spells.length < 2 || typeof $scope.customSelected === 'undefined' ||
+    		 typeof $scope.customSelected.name === 'undefined' || !$scope.nameBuild || typeof $scope.typeBuild === 'undefined' || 
+    		 typeof $scope.typeBuild.name === 'undefined' ) {
+            $scope.error = "Preencha todos os campos e todos os slots da build!";
+            $scope.success = null;
+            return;
+    	}
+    	
+    	var newBuildObject = {
+			champion: $scope.customSelected,
+			items: $scope.user_items,
+			type: $scope.typeBuild.name,
+			name: $scope.nameBuild,
+			spells: $scope.user_spells
+    	}
+    	
+    	console.log(newBuildObject);
+    }
+    
+    $scope.limpaErrNot = function() {
+        setTimeout(function() {
+            $scope.$apply(function() {
+        		$scope.error = null;
+            });
+        }, 100);
+    };
+
+    $scope.limpaSuccNot = function() {
+        setTimeout(function() {
+            $scope.$apply(function() {
+        		$scope.success = null;
+            });
+        }, 100);
+    };    
     
 });
 
@@ -121,15 +165,30 @@ app.directive('droppable', function() {
 					e.stopPropagation();
 
 				this.classList.remove('over');
-
 				var binId = this.id;
+			    var childs = document.getElementById(binId).childElementCount;
 				var item = document.getElementById(e.dataTransfer.getData('Text'));
-				this.appendChild(item);
+				
+		    	if( item.id.substring(0, 3) == 'spl' ) {
+		    		if ( binId.substring(0, 3) == 'itm' ) {
+		    			return;
+		    		} else if ( childs > 0 ) {
+		    			return;
+			    	}
+		    	} else if ( item.id.substring(0, 3) == 'itm' ) {
+		    		if ( binId.substring(0, 3) == 'spl' ) {
+		    			return;
+		    		} else if ( childs > 0 ) {
+		    			return;
+			    	}
+		    	}
+		    	
+	    		this.appendChild(item);
 				// call the passed drop function
 				scope.$apply(function(scope) {
 					var fn = scope.drop();
 					if ('undefined' !== typeof fn) {
-						fn(item.id, binId);
+				    	fn(item.id, binId);
 					}
 				});
 				return false;

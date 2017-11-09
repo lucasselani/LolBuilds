@@ -164,6 +164,11 @@ body.md-default-theme, body, html.md-default-theme, html {
 	margin-top: 2px;
 }
 
+.alert {
+	margin-left: 110px !important;
+	margin-right: 110px !important;
+}
+
 .champion_select input[type='text'], .name_build input[type='text'] {
 	background-color: rgb(30, 32, 33) !important;
 	padding-left:15px;
@@ -176,8 +181,8 @@ body.md-default-theme, body, html.md-default-theme, html {
 	text-transform: uppercase;
 }
 
-.champion_select input[type='button'], .name_build input[type='button'] {
-	background-color: rgb(30, 32, 33) !important;
+.champion_select input[type='submit'] {
+	background-color: rgb(5, 142, 1) !important;
 	padding-left:15px;
 	min-height: 35px !important;
 	min-width: 180px !important;
@@ -188,9 +193,8 @@ body.md-default-theme, body, html.md-default-theme, html {
 	text-transform: uppercase;
 }
 
-.champion_select input[type='button']:hover, .name_build input[type='button']:hover {
-	background-color: rgb(30, 32, 33) !important;;
-	color: #eee;
+.champion_select input[type='submit']:hover {
+	background-color: rgb(47, 200, 42) !important;
 }
 
 [uib-typeahead-popup].dropdown-menu {
