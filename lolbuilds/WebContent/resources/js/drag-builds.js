@@ -34,8 +34,13 @@ app.controller("Controller", function($scope, $http, $timeout, $filter) {
 	           method: 'GET',
 		       headers: {'Content-Type': 'application/json; charset=utf-8'}
         	}).then(function mySuccess(response) {
-        		$scope.items_data = Object.values(response.data.data);
-        		//console.log($scope.items_data);
+        		var arr = Object.values(response.data.data);
+    			$scope.items_data = [];
+    			for (var i = 0; i < arr.length; i++) {
+    				if (arr[i].maps['11'] && !arr[i]['hideFromAll'] && arr[i].gold.purchasable) {
+    					$scope.items_data.push(arr[i]);
+    				}
+				} //console.log($scope.items_data);        		
         	}, function myError(response) {
 	   			console.log(response);
    		});			    
@@ -88,8 +93,27 @@ app.controller("Controller", function($scope, $http, $timeout, $filter) {
 			spells: $scope.user_spells
     	}
     	
-    	console.log(newBuildObject);
+    	$scope.post(newBuildObject);
     }
+    
+	$scope.post = function(obj) {
+		$http({
+			method: 'POST',
+			url: url_api+'/build/newbuild',
+			data: JSON.stringify(obj),
+			headers: {'Content-Type': 'application/json'}
+		}).then(function mySuccess(response) {
+			if ( response.data.status === "OK") {
+		        $scope.error = null;
+		        $scope.success = "Sua build foi criada com sucesso!";
+			} else {
+				$scope.error = "Ops! Alguma coisa deu errado, tente novamente.";
+			}
+		}, function myError(response) {
+			console.log(response);
+		});
+		$scope.changedRuas = true;
+	};    
     
     $scope.limpaErrNot = function() {
         setTimeout(function() {
