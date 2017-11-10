@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -14,14 +15,17 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import br.inatel.lolbuild.util.SessionContext;
+import br.inatel.lolbuild.util.Util;
 import br.inatel.lolbuilds.dao.BuildDAO;
 import br.inatel.lolbuilds.dao.BuildItemDAO;
 import br.inatel.lolbuilds.dao.BuildSpellDAO;
 import br.inatel.lolbuilds.dao.ChampionDAO;
 import br.inatel.lolbuilds.dao.ItemDAO;
 import br.inatel.lolbuilds.dao.SpellDAO;
+import br.inatel.lolbuilds.dao.UserDAO;
 import br.inatel.lolbuilds.entity.Build;
 import br.inatel.lolbuilds.entity.BuildItem;
 import br.inatel.lolbuilds.entity.BuildNode;
@@ -39,6 +43,7 @@ public class BuildAPI {
 	private ChampionDAO championDao = new ChampionDAO();
 	private ItemDAO itemDao = new ItemDAO();
 	private SpellDAO spellDao = new SpellDAO();		
+	private UserDAO userDao = new UserDAO();
 	
     @Context
     private HttpServletRequest request;
@@ -46,7 +51,10 @@ public class BuildAPI {
 	@GET
 	@Path("/allbuilds")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<BuildNode> getAllBuilds() {
+	public ArrayList<BuildNode> getAllBuilds(@HeaderParam("authorization") String authorization) {
+		if(authorization == null || !authorization.equals(Util.AUTHORIZATION)) {
+			return null;
+		}
 		try {		
 			ArrayList<Build> builds = buildDao.getAllBuilds();
 			return parseBuild(builds);
@@ -59,7 +67,10 @@ public class BuildAPI {
 	@GET
 	@Path("/ownbuild")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<BuildNode> getOwnBuilds() {
+	public ArrayList<BuildNode> getOwnBuilds(@HeaderParam("authorization") String authorization) {
+		if(authorization == null || !authorization.equals(Util.AUTHORIZATION)) {
+			return null;
+		}
 		try {
 			HttpSession session = request.getSession();
 			User user = (User) session.getAttribute("userLogged");
@@ -75,7 +86,11 @@ public class BuildAPI {
 	@GET
 	@Path("/champion")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<BuildNode> getBuildByChampion(@QueryParam("name") String name) {
+	public ArrayList<BuildNode> getBuildByChampion(@QueryParam("name") String name,
+			@HeaderParam("authorization") String authorization) {
+		if(authorization == null || !authorization.equals(Util.AUTHORIZATION)) {
+			return null;
+		}
 		try {		
 			ArrayList<Build> builds = buildDao.getBuildsByChampion(name);			
 			return parseBuild(builds);
@@ -88,7 +103,11 @@ public class BuildAPI {
 	@GET
 	@Path("/type")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<BuildNode> getBuildByType(@QueryParam("name") String type) {
+	public ArrayList<BuildNode> getBuildByType(@QueryParam("name") String type,
+			@HeaderParam("authorization") String authorization) {
+		if(authorization == null || !authorization.equals(Util.AUTHORIZATION)) {
+			return null;
+		}
 		try {		
 			ArrayList<Build> builds = buildDao.getBuildsByType(type);			
 			return parseBuild(builds);
@@ -102,11 +121,15 @@ public class BuildAPI {
 	@Path("/newbuild")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public APIResponse post(BuildNode newBuild) throws Exception {
+	public APIResponse post(BuildNode newBuild, 
+			@HeaderParam("authorization") String authorization) throws Exception {
+		if(authorization == null || !authorization.equals(Util.AUTHORIZATION)) {
+			return new APIResponse("NOK","Não autorizado");
+		} 
 		try {
 			HttpSession session = request.getSession();
 			User user = (User) session.getAttribute("userLogged");
-			int userId = 20;	
+			int userId = user.getId();	
 	
 			Champion champion = newBuild.getChampion();
 			championDao.add(champion);
@@ -148,13 +171,18 @@ public class BuildAPI {
 	@Path("/delete/{name}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public APIResponse delete(@PathParam("name") String name) throws Exception {
-		try {
-			buildDao.delete(name);
-			return new APIResponse("OK","");
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new APIResponse("NOK",e.getMessage());
+	public APIResponse delete(@PathParam("name") String name, 
+			@HeaderParam("authorization") String authorization) throws Exception {
+		if(authorization == null || !authorization.equals(Util.AUTHORIZATION)) {
+			return new APIResponse("NOK","Não autorizado");
+		} else {
+			try {
+				buildDao.delete(name);
+				return new APIResponse("OK","");
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new APIResponse("NOK",e.getMessage());
+			}
 		}
 	}
 	
@@ -162,6 +190,7 @@ public class BuildAPI {
 		ArrayList<BuildNode> buildsNode = new ArrayList<BuildNode>();
 		for(Build build : builds) {
 			BuildNode buildNode = new BuildNode();
+			buildNode.setUsername(userDao.getUsernameById(build.getId()));
 			buildNode.setChampion(championDao.list(build.getId()));			
 			buildNode.setItems(buildItemDao.list(build.getId()));			
 			buildNode.setSpells(buildSpellDao.list(build.getId()));

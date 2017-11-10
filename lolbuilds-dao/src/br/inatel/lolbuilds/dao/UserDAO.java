@@ -58,6 +58,36 @@ public class UserDAO {
 		return -1;
 	}
 	
+	public String getUsernameById(int id) {
+		try {
+			String queryString = "SELECT username FROM user WHERE id=?";
+			connection = getConnection();
+			ptmt = connection.prepareStatement(queryString);
+			ptmt.setInt(1, id);
+			resultSet = ptmt.executeQuery();
+
+			while (resultSet.next()) {
+				return resultSet.getString("username");				
+		    }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (resultSet != null)
+					resultSet.close();
+				if (ptmt != null)
+					ptmt.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
+		}
+		return null;
+	}
+	
 	public boolean findUsername(String username) {
 		try {
 			String queryString = "SELECT username FROM user WHERE username=?";

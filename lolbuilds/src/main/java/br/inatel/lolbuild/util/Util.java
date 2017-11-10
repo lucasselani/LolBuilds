@@ -10,6 +10,8 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
 public class Util {
+	public static final String AUTHORIZATION = "ac308inatel2017lolbuilds";
+	
 	public static String convertStringToMd5(String value) {
 		MessageDigest mDigest;
 		try {
