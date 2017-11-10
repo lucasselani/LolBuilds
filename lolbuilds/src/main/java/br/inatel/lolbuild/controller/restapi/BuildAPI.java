@@ -190,7 +190,7 @@ public class BuildAPI {
 		ArrayList<BuildNode> buildsNode = new ArrayList<BuildNode>();
 		for(Build build : builds) {
 			BuildNode buildNode = new BuildNode();
-			buildNode.setUsername(userDao.getUsernameById(build.getId()));
+			buildNode.setUsername(userDao.getUsernameById(build.getUserId()));
 			buildNode.setChampion(championDao.list(build.getId()));			
 			buildNode.setItems(buildItemDao.list(build.getId()));			
 			buildNode.setSpells(buildSpellDao.list(build.getId()));
