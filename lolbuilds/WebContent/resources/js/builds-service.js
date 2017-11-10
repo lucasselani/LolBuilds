@@ -1,21 +1,38 @@
-var app = angular.module("myApp", []);	
+var app = angular.module("myApp", ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'angular-loading-bar']);	
+
+app.run(['$http', function($http) {
+    $http.defaults.headers.common['Authorization'] = "ac308inatel2017lolbuilds";
+}]);
 
 app.controller("Controller", function($scope, $http) {
 	
 	$scope.init = function() {
-		$scope.searchItems();
+		$scope.searchBuilds();
+		$scope.searchUsers();
 	}
 	
-    $scope.searchItems = function() {
-        $http({url: 'http://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/item.json',
+    $scope.searchBuilds = function() {
+        $http({url: url_api+'/build/allbuilds',
 	           method: 'GET',
-		       headers: {'Content-Type': 'application/json; charset=utf-8'}
+		       headers: {'Content-Type': 'application/json; charset=utf-8', 'Authorization':'ac308inatel2017lolbuilds'}
         	}).then(function mySuccess(response) {
-        		$scope.items_data = Object.values(response.data.data);
-        	    console.log($scope.items_data);
+        		$scope.build_data = response.data;
+        	    console.log($scope.build_data);
         	}, function myError(response) {
 	   			console.log(response);
    		});			    
-    };   
+    }; 
+    
+    $scope.searchUsers = function() {
+        $http({url: url_api+'/user/allusers',
+	           method: 'GET',
+		       headers: {'Content-Type': 'application/json; charset=utf-8', 'Authorization':'ac308inatel2017lolbuilds'}
+        	}).then(function mySuccess(response) {
+        		$scope.user_data = response.data;
+        	    //console.log($scope.user_data);
+        	}, function myError(response) {
+	   			console.log(response);
+   		});			    
+    };       
     
 });

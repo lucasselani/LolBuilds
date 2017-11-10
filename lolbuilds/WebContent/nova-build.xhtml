@@ -12,12 +12,14 @@
     		<!-- IMPORTS -->
 			<link rel="stylesheet" href="resources/css/grid-list-items.css"></link>
 			<link rel="stylesheet" href="resources/css/bootstrap.min.css"></link>
+			<link rel="stylesheet" href="resources/css/loading-bar.css"></link>
 			<script src="resources/js/angular.js"></script>
 			<script src="resources/js/angular-animate.js"></script>
 			<script src="resources/js/angular-sanitize.js"></script>
 			<script src="resources/js/ui-bootstrap-tpls.js"></script>
 			<script src="resources/js/bootstrap.min.js"></script>
 			<script src="resources/js/drag-builds.js"></script>
+			<script src="resources/js/loading-bar.js"></script>
 			
 		</head>
     </ui:define>
@@ -33,13 +35,13 @@
 					<h3>Feitiços de Invocador</h3>
 					<span ng-repeat="item in spells_data">
 						<a><figure ng-attr-id="spl_container_{{item.image.full}}" class="icon42x42 border-5 round-corners left" droppable="droppable" drop="handleDrop" item="item">
-							<img ng-attr-alt="{{item.name}}" ng-attr-id="spl_{{item.image.full}}" draggable="draggable" item="item" ng-src="http://ddragon.leagueoflegends.com/cdn/6.24.1/img/spell/{{item.image.full}}"/>
+							<img ng-attr-title="{{item.name}}" ng-attr-alt="{{item.name}}" ng-attr-id="spl_{{item.image.full}}" draggable="draggable" item="item" ng-src="http://ddragon.leagueoflegends.com/cdn/6.24.1/img/spell/{{item.image.full}}"/>
 						</figure></a>
 					</span>	
 					<h3>Itens</h3>
 					<span ng-repeat="item in items_data">
 						<a><figure ng-attr-id="itm_container_{{item.image.full}}" class="icon42x42 border-5 round-corners left" droppable="droppable" drop="handleDrop" item="item">
-							<img ng-attr-alt="{{item.name}}" ng-attr-id="itm_{{item.image.full}}" draggable="draggable" item="item" ng-src="http://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/{{item.image.full}}"/>
+							<img ng-attr-title="{{item.name}}" ng-attr-alt="{{item.name}}" ng-attr-id="itm_{{item.image.full}}" draggable="draggable" item="item" ng-src="http://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/{{item.image.full}}"/>
 						</figure></a>
 					</span>				
 				</div>
@@ -51,7 +53,8 @@
 					</div><br/>
 					<div class="champion_select">
 						<input class="aligned-list right-box" type="text" ng-model="nameBuild" placeholder="Nome da build" /><br/>
-						<input class="aligned-list right-box" ng-click="enviarBuild()" type="submit" />			
+						<input class="aligned-list right-box" value="ENVIAR" ng-click="enviarBuild()" type="submit" /><br/>
+						<input class="aligned-list right-box" value="LIMPAR" onClick="history.go(0)" type="button" />				
 					</div>
 				</div>
 				<div>	
