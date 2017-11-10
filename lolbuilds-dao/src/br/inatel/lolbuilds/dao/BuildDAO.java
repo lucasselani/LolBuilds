@@ -109,6 +109,7 @@ public class BuildDAO {
 				build.setUserId(resultSet.getInt("user_id"));
 				build.setName(resultSet.getString("name"));
 				build.setChampionId(resultSet.getInt("champion_id"));
+				build.setType(resultSet.getString("type"));
 				builds.add(build);
 		    }
 			return builds;
@@ -177,6 +178,7 @@ public class BuildDAO {
 				build.setUserId(resultSet.getInt("user_id"));
 				build.setName(resultSet.getString("name"));
 				build.setChampionId(resultSet.getInt("champion_id"));
+				build.setType(resultSet.getString("type"));
 				builds.add(build);
 		    }
 			return builds;
