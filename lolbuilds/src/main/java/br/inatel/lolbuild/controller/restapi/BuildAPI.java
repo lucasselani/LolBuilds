@@ -1,5 +1,8 @@
 package br.inatel.lolbuild.controller.restapi;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -140,6 +143,7 @@ public class BuildAPI {
 			build.setUserId(userId);
 			build.setType(newBuild.getType());
 			build.setChampionId(championDao.findChampionIdByName(champion.getName()));
+			build.setDatetime(new Timestamp(System.currentTimeMillis()));
 			int buildId = buildDao.add(build);
 			
 			for(Item item : newBuild.getItems()) {
@@ -196,6 +200,7 @@ public class BuildAPI {
 			buildNode.setSpells(buildSpellDao.list(build.getId()));
 			buildNode.setName(build.getName());
 			buildNode.setType(build.getType());
+			buildNode.setDatetime(build.getDatetime());
 			buildsNode.add(buildNode);
 		}
 		return buildsNode;

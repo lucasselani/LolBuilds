@@ -1,6 +1,7 @@
 package br.inatel.lolbuilds.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 
 /**
@@ -19,6 +20,8 @@ public class Build implements Serializable {
 	private int userId;
 	
 	private int championId;
+	
+	private Timestamp datetime;
 	
 	public Build() {
 	}	
@@ -61,6 +64,14 @@ public class Build implements Serializable {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public Timestamp getDatetime() {
+		return datetime;
+	}
+
+	public void setDatetime(Timestamp datetime) {
+		this.datetime = datetime;
 	}
 		
 

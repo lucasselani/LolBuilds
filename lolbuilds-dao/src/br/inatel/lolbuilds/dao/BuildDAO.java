@@ -26,13 +26,14 @@ public class BuildDAO {
 	
 	public int add(Build build) {
 		try {
-			String queryString = "insert into build (name, type, user_id, champion_id) values (?,?,?,?)";
+			String queryString = "insert into build (name, type, user_id, champion_id, datetime) values (?,?,?,?,?)";
 			connection = getConnection();
 			ptmt = connection.prepareStatement(queryString, Statement.RETURN_GENERATED_KEYS);
 			ptmt.setString(1, build.getName());
 			ptmt.setString(2, build.getType());
 			ptmt.setInt(3, build.getUserId());
 			ptmt.setInt(4, build.getChampionId());
+			ptmt.setTimestamp(5, build.getDatetime());
 			int affectedRows = ptmt.executeUpdate();
 			
 			if(affectedRows != 0) {
@@ -110,6 +111,7 @@ public class BuildDAO {
 				build.setName(resultSet.getString("name"));
 				build.setChampionId(resultSet.getInt("champion_id"));
 				build.setType(resultSet.getString("type"));
+				build.setDatetime(resultSet.getTimestamp("datetime"));
 				builds.add(build);
 		    }
 			return builds;
@@ -179,6 +181,7 @@ public class BuildDAO {
 				build.setName(resultSet.getString("name"));
 				build.setChampionId(resultSet.getInt("champion_id"));
 				build.setType(resultSet.getString("type"));
+				build.setDatetime(resultSet.getTimestamp("datetime"));
 				builds.add(build);
 		    }
 			return builds;
@@ -272,6 +275,7 @@ public class BuildDAO {
 				build.setName(resultSet.getString("name"));
 				build.setType(resultSet.getString("type"));
 				build.setChampionId(resultSet.getInt("champion_id"));
+				build.setDatetime(resultSet.getTimestamp("datetime"));
 				builds.add(build);
 		    }
 			return builds;
@@ -311,6 +315,7 @@ public class BuildDAO {
 				build.setName(resultSet.getString("name"));
 				build.setType(resultSet.getString("type"));
 				build.setChampionId(resultSet.getInt("champion_id"));
+				build.setDatetime(resultSet.getTimestamp("datetime"));
 				builds.add(build);
 		    }
 			return builds;
@@ -348,6 +353,7 @@ public class BuildDAO {
 				build.setName(resultSet.getString("name"));
 				build.setType(resultSet.getString("type"));
 				build.setChampionId(resultSet.getInt("champion_id"));
+				build.setDatetime(resultSet.getTimestamp("datetime"));
 				builds.add(build);
 		    }
 			return builds;

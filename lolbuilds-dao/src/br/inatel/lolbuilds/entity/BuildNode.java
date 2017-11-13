@@ -1,5 +1,6 @@
 package br.inatel.lolbuilds.entity;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -16,6 +17,7 @@ public class BuildNode {
 	private String name;
 	private String type;
 	private String username;
+	private Timestamp datetime;
 	
 	public BuildNode() {}	
 	
@@ -70,5 +72,16 @@ public class BuildNode {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+
+	public Timestamp getDatetime() {
+		return datetime;
+	}
+
+
+	public void setDatetime(Timestamp datetime) {
+		this.datetime = datetime;
 	}	
+	
 }
