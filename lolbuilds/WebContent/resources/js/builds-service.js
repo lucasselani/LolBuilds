@@ -14,10 +14,10 @@ app.controller("Controller", function($scope, $http) {
     $scope.searchBuilds = function() {
         $http({url: url_api+'/build/allbuilds',
 	           method: 'GET',
-		       headers: {'Content-Type': 'application/json; charset=utf-8', 'Authorization':'ac308inatel2017lolbuilds'}
+		       headers: {'Content-Type': 'application/json; charset=utf-8'}
         	}).then(function mySuccess(response) {
         		$scope.build_data = response.data;
-        	    console.log($scope.build_data);
+        	    //console.log($scope.build_data);
         	}, function myError(response) {
 	   			console.log(response);
    		});			    
@@ -26,7 +26,7 @@ app.controller("Controller", function($scope, $http) {
     $scope.searchUsers = function() {
         $http({url: url_api+'/user/allusers',
 	           method: 'GET',
-		       headers: {'Content-Type': 'application/json; charset=utf-8', 'Authorization':'ac308inatel2017lolbuilds'}
+		       headers: {'Content-Type': 'application/json; charset=utf-8'}
         	}).then(function mySuccess(response) {
         		$scope.user_data = response.data;
         	    //console.log($scope.user_data);

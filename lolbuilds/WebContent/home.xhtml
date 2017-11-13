@@ -35,6 +35,14 @@
 			<h4>Últimas builds</h4>
 				<h5 ng-if="!build_data.length">Nenhuma build encontrada.</h5>
 			<div class="container-list">
+				<div ng-if="build_data.length" class="title-table">
+					<h6>Usuário</h6>
+					<h6 style="margin-left: 50px;">Rota</h6>
+					<h6 style="margin-left: 60px;">Descrição</h6>
+					<h6 style="margin-left: 60px;">Campeão</h6>
+					<h6 style="margin-left: 180px;">Build</h6>
+					<h6 style="margin-left: 210px;">Feitiços</h6>
+				</div>
 				<div class="build-list" ng-repeat="build in build_data">
 					<div ng-attr-title="{{build.username}}" style="margin-left: 8px;" class="textBox"><h6>{{build.username}}</h6></div>
 					<div ng-attr-title="{{build.type}}" class="textBox"><h6>{{build.type}}</h6></div>

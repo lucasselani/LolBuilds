@@ -20,17 +20,18 @@
 					<ul>
 						<p:graphicImage url="resources/images/logo.png" style="float:left; max-width:200px; padding:15px;" />
 						<li><a href='home.xhtml'>Início</a></li>
-						<li><a href='builds.xhtml'>Builds</a>
+						<li><a href='#'>Builds</a>
 							<ul>
-								<li><a href='#'>Topo</a></li>
-								<li><a href='#'>Meio</a></li>
-								<li><a href='#'>Selva</a></li>
-								<li><a href='#'>Atirador</a></li>
-								<li><a href='#'>Suporte</a></li>
+								<li><a href='builds.xhtml?t=rota&amp;d=TOPO'>Topo</a></li>
+								<li><a href='builds.xhtml?t=rota&amp;d=MEIO'>Meio</a></li>
+								<li><a href='builds.xhtml?t=rota&amp;d=SELVA'>Selva</a></li>
+								<li><a href='builds.xhtml?t=rota&amp;d=ATIRADOR'>Atirador</a></li>
+								<li><a href='builds.xhtml?t=rota&amp;d=SUPORTE'>Suporte</a></li>
 							</ul>
 						</li>
 						<li><a href='champions.xhtml'>Campeões</a></li>
-						<li><a href='nova-build.xhtml'>Nova Build</a></li>
+						<li><a style="color:#47a513" href='nova-build.xhtml'>Nova Build</a></li>
+						<li><a href='builds.xhtml?t=minhas-builds'>Minhas Builds</a></li>
 						<li style="float: right;">
 							<h:commandLink action='#{appUrlStore.logoutAndRedirect}' value="Sair"/>							
 						</li>

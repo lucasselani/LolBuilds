@@ -23,9 +23,9 @@
 			<div data-ng-controller="Controller" data-ng-init="searchChampions()">
 				<div class="aligned-list">
 					<span data-ng-repeat="x in champions_data">
-						<a>
+						<a data-ng-href="builds.xhtml?t=campeao&amp;d={{x.name}}">
 							<figure class="icon84x84 border-5 round-corners left">
-								<img data-ng-href="#" data-ng-src="https://ddragon.leagueoflegends.com/cdn/7.10.1/img/champion/{{x.image}}" alt=""/>
+								<img data-ng-src="https://ddragon.leagueoflegends.com/cdn/7.10.1/img/champion/{{x.image}}" alt=""/>
 							</figure>
 							<figure class="text84 champName left">{{x.name}}</figure>
 						</a>

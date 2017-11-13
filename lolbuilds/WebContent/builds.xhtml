@@ -8,12 +8,53 @@
 		<head>
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     		<title>Builds</title>
+    						
+    		<!-- IMPORTS -->
+			<link rel="stylesheet" href="resources/css/grid-list-items.css"></link>
+			<link rel="stylesheet" href="resources/css/bootstrap.min.css"></link>
+			<link rel="stylesheet" href="resources/css/loading-bar.css"></link>
+			<script src="resources/js/angular.js"></script>
+			<script src="resources/js/angular-animate.js"></script>
+			<script src="resources/js/angular-sanitize.js"></script>
+			<script src="resources/js/ui-bootstrap-tpls.js"></script>
+			<script src="resources/js/bootstrap.min.js"></script>
+			<script src="resources/js/filter-service.js"></script>
+			<script src="resources/js/loading-bar.js"></script>
+			
 		</head>
     </ui:define>
   
     <!-- BODY -->
     <ui:define name="content">
-    
+	    <div class="lolDragBuild ng-cloak" ng-app="myApp" ng-controller="Controller" ng-init="init()">
+			<h2 ng-if="!own">Builds para <span style="color:#47a513">{{query_data}}</span></h2>
+			<h2 ng-if="own">Minhas builds</h2>
+				<h5 ng-if="!build_data.length">Nenhuma build encontrada.</h5>
+			<div class="container-list">
+				<div ng-if="build_data.length" class="title-table">
+					<h6>Usuário</h6>
+					<h6 style="margin-left: 50px;">Rota</h6>
+					<h6 style="margin-left: 60px;">Descrição</h6>
+					<h6 style="margin-left: 60px;">Campeão</h6>
+					<h6 style="margin-left: 180px;">Build</h6>
+					<h6 style="margin-left: 210px;">Feitiços</h6>
+				</div>
+				<div class="build-list" ng-repeat="build in build_data">
+					<div ng-attr-title="{{build.username}}" style="margin-left: 8px;" class="textBox"><h6>{{build.username}}</h6></div>
+					<div ng-attr-title="{{build.type}}" class="textBox"><h6>{{build.type}}</h6></div>
+					<div ng-attr-title="{{build.name}}" class="textBox"><h6>{{build.name}}</h6></div>
+					<img ng-attr-title="{{build.champion.name}}" style="margin-left: 30px;" class="icon42x42 border-list-champ left list-items" ng-src="https://ddragon.leagueoflegends.com/cdn/7.10.1/img/champion/{{build.champion.image}}" />			
+					<span ng-repeat="item in build.items">
+						<img ng-attr-title="{{item.name}}" class="icon42x42 border-list-itm left list-items" ng-src="http://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/{{item.image}}"/>
+					</span>
+					<div style="margin-left: 30px;">
+						<span ng-repeat="spell in build.spells">
+							<img ng-attr-title="{{spell.name}}" class="icon42x42 border-list-itm left list-items" ng-src="http://ddragon.leagueoflegends.com/cdn/6.24.1/img/spell/{{spell.image}}"/>
+						</span>
+					</div>						
+				</div>
+			</div>			
+	    </div>
     </ui:define>
     
 </ui:composition>
