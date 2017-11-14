@@ -203,6 +203,45 @@ public class BuildDAO {
 			}	
 		}		
 	}	
+	
+	public ArrayList<Build> getBuildByUsername(String name) {
+		try {
+			String queryString = "SELECT * FROM build JOIN user ON build.user_id = user.id WHERE user.username=?";
+			connection = getConnection();
+			ptmt = connection.prepareStatement(queryString);
+			ptmt.setString(1, name);
+			resultSet = ptmt.executeQuery();
+			
+			ArrayList<Build> builds = new ArrayList<>();
+			while (resultSet.next()) {
+				Build build = new Build();
+				build.setId(resultSet.getInt("id"));
+				build.setUserId(resultSet.getInt("user_id"));
+				build.setName(resultSet.getString("name"));
+				build.setChampionId(resultSet.getInt("champion_id"));
+				build.setType(resultSet.getString("type"));
+				build.setDatetime(resultSet.getTimestamp("datetime"));
+				builds.add(build);
+		    }
+			return builds;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				if (resultSet != null)
+					resultSet.close();
+				if (ptmt != null)
+					ptmt.close();
+				if (connection != null)
+					connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
+		}		
+	}	
 
 	public void update(Build build) {
 		try {

@@ -104,6 +104,23 @@ public class BuildAPI {
 	}
 	
 	@GET
+	@Path("/user")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<BuildNode> getBuildByUser(@QueryParam("name") String name,
+			@HeaderParam("authorization") String authorization) {
+		if(authorization == null || !authorization.equals(Util.AUTHORIZATION)) {
+			return null;
+		}
+		try {		
+			ArrayList<Build> builds = buildDao.getBuildByUsername(name);			
+			return parseBuild(builds);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@GET
 	@Path("/type")
 	@Produces(MediaType.APPLICATION_JSON)
 	public ArrayList<BuildNode> getBuildByType(@QueryParam("name") String type,
