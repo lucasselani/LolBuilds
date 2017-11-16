@@ -32,14 +32,17 @@
 			<div class="alert alert-danger alert-dismissable fade in" ng-if="error"><a href="#" class="close" ng-click="limpaErrNot()" data-dismiss="alert" aria-label="close">&times;</a><Strong>Erro!</Strong><p ng-bind="error"></p></div>
 			<div class="container-box">
 				<div class="aligned-list left-box">
+					<div class="filter_select">
+						<input class="aligned-list right-box" type="text" ng-model="filterItems" placeholder="Pesquise um item" /><br/>
+					</div>
 					<h3>Feitiços de Invocador</h3>
-					<span ng-repeat="item in spells_data">
+					<span ng-repeat="item in spells_data | filter:filterItems">
 						<a><figure ng-attr-id="spl_container_{{item.image.full}}" class="icon42x42 border-5 round-corners left" droppable="droppable" drop="handleDrop" item="item">
 							<img ng-attr-title="{{item.name}}" ng-attr-alt="{{item.name}}" ng-attr-id="spl_{{item.image.full}}" draggable="draggable" item="item" ng-src="http://ddragon.leagueoflegends.com/cdn/6.24.1/img/spell/{{item.image.full}}"/>
 						</figure></a>
 					</span>	
 					<h3>Itens</h3>
-					<span ng-repeat="item in items_data">
+					<span ng-repeat="item in items_data | filter:filterItems">
 						<a><figure ng-attr-id="itm_container_{{item.image.full}}" class="icon42x42 border-5 round-corners left" droppable="droppable" drop="handleDrop" item="item">
 							<img ng-attr-title="{{item.name}}" ng-attr-alt="{{item.name}}" ng-attr-id="itm_{{item.image.full}}" draggable="draggable" item="item" ng-src="http://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/{{item.image.full}}"/>
 						</figure></a>

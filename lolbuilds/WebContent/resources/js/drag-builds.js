@@ -40,7 +40,7 @@ app.controller("Controller", function($scope, $http, $timeout, $filter) {
     				if (arr[i].maps['11'] && arr[i].gold.purchasable) {
     					$scope.items_data.push(arr[i]);
     				}
-				} console.log($scope.items_data);        		
+				} //console.log($scope.items_data);        		
         	}, function myError(response) {
 	   			console.log(response);
    		});			    

@@ -20,6 +20,8 @@
 			<script src="resources/js/bootstrap.min.js"></script>
 			<script src="resources/js/builds-service.js"></script>
 			<script src="resources/js/loading-bar.js"></script>
+			<script src="resources/js/moment.min.js"></script>
+			<script src="resources/js/moment-pt-br.js"></script>
 			
 		</head>
     </ui:define>
@@ -36,14 +38,16 @@
 				<h5 ng-if="!build_data.length">Nenhuma build encontrada.</h5>
 			<div class="container-list">
 				<div ng-if="build_data.length" class="title-table">
-					<h6>Usuário</h6>
-					<h6 style="margin-left: 50px;">Rota</h6>
+					<h6 style="margin-left: 30px;">Data</h6>
+					<h6 style="margin-left: 77px;">Usuário</h6>
+					<h6 style="margin-left: 47px;">Rota</h6>
 					<h6 style="margin-left: 60px;">Descrição</h6>
 					<h6 style="margin-left: 60px;">Campeão</h6>
 					<h6 style="margin-left: 180px;">Build</h6>
 					<h6 style="margin-left: 210px;">Feitiços</h6>
 				</div>
 				<div class="build-list" ng-repeat="build in build_data">
+					<div ng-attr-title="{{build.momentNow}}" style="margin-left: 8px;" class="textBox2"><h6>{{build.momentNow}}</h6></div>
 					<div ng-attr-title="{{build.username}}" style="margin-left: 8px;" class="textBox"><h6>{{build.username}}</h6></div>
 					<div ng-attr-title="{{build.type}}" class="textBox"><h6>{{build.type}}</h6></div>
 					<div ng-attr-title="{{build.name}}" class="textBox"><h6>{{build.name}}</h6></div>

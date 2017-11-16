@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import br.inatel.lolbuilds.entity.Build;
 import br.inatel.lolbuilds.entity.User;
 
 public class UserDAO {

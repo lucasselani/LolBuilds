@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import br.inatel.lolbuilds.entity.Champion;
-import br.inatel.lolbuilds.entity.Item;
 
 public class ChampionDAO {
 	Connection connection = null;

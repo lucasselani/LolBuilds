@@ -1,9 +1,6 @@
 package br.inatel.lolbuild.controller.restapi;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,9 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
-import br.inatel.lolbuild.util.SessionContext;
 import br.inatel.lolbuild.util.Util;
 import br.inatel.lolbuilds.dao.BuildDAO;
 import br.inatel.lolbuilds.dao.BuildItemDAO;
