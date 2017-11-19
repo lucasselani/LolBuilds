@@ -19,7 +19,7 @@ import br.inatel.lolbuilds.entity.User;
 public class LoginFilter implements Filter {
 	private static final String LOGIN = "login";
 	private static final String SIGNUP = "signup";
-	private static final String BASE_URL = "http://localhost:8080/build-online/";
+	private static final String BASE_URL = "http://buildonline.me/";
 	private static final String RESOURCES = "javax.faces.resource";
 
 	@Override
