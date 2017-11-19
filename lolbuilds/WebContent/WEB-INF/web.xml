@@ -55,7 +55,7 @@
 	<context-param>
         <param-name>BaseUrl</param-name>
         <param-value>
-			http:///buildonline.me/
+			http://buildonline.me:8080/
 		</param-value>
     </context-param>
 </web-app>
